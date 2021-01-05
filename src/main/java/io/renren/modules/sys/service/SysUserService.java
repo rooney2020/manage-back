@@ -30,7 +30,7 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * @param userId  用户ID
 	 */
 	List<String> queryAllPerms(Long userId);
-	
+
 	/**
 	 * 查询用户的所有菜单ID
 	 */
@@ -45,12 +45,12 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * 保存用户
 	 */
 	void saveUser(SysUserEntity user);
-	
+
 	/**
 	 * 修改用户
 	 */
 	void update(SysUserEntity user);
-	
+
 	/**
 	 * 删除用户
 	 */
@@ -63,4 +63,9 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * @param newPassword  新密码
 	 */
 	boolean updatePassword(Long userId, String password, String newPassword);
+
+	/**
+	 * 获取当前用户所有下级员工
+	 */
+	PageUtils getSubs(Map<String, Object> params);
 }
