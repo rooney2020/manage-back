@@ -165,4 +165,13 @@ public class SysUserController extends AbstractController {
 
 		return R.ok().put("page", page);
 	}
+
+	/**
+	 * 查询所有管理员信息
+	 */
+	@GetMapping("/super")
+	public R superList() {
+		List<SysUserEntity> list = sysUserService.queryAllSuper();
+		return R.ok().put("data", list).put("total", list.size());
+	}
 }

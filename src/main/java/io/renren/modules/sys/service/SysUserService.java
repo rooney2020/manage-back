@@ -68,4 +68,9 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * 获取当前用户所有下级员工
 	 */
 	PageUtils getSubs(Map<String, Object> params);
+
+	/**
+	 * 查询所有管理员信息
+	 */
+	List<SysUserEntity> queryAllSuper();
 }

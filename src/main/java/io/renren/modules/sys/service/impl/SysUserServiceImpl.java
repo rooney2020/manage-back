@@ -44,6 +44,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	private SysUserRoleService sysUserRoleService;
 	@Autowired
 	private SysRoleService sysRoleService;
+	@Autowired
+	private SysUserDao sysUserDao;
 
 	@Override
 	public PageUtils queryPage(Map<String, Object> params) {
@@ -159,5 +161,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		);
 
 		return new PageUtils(page);
+	}
+
+	/**
+	 * 查询所有管理员信息
+	 */
+	@Override
+	public List<SysUserEntity> queryAllSuper() {
+		return sysUserDao.queryAllSuper();
 	}
 }
