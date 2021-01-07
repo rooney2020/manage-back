@@ -20,6 +20,19 @@ public class ManageNewsController extends AbstractController {
     private ManageNewsService service;
 
     /**
+     * 新闻列表
+     */
+    @GetMapping("/list/active")
+    public R activeList() {
+        List<ManageNewsEntity> list = service.list(
+                new QueryWrapper<ManageNewsEntity>().lambda()
+                        .eq(ManageNewsEntity::getIsActive, 0)
+                        .orderBy(true, false, ManageNewsEntity::getCreateTime)
+        );
+        return R.ok().put("data", list).put("total", list.size());
+    }
+
+    /**
      * 新闻管理列表
      */
     @GetMapping("/list")
