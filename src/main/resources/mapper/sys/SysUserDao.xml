@@ -25,7 +25,12 @@
 	<select id="queryAllSuper" resultType="io.renren.modules.sys.entity.SysUserEntity">
 		select user.* from sys_user user
 		LEFT JOIN sys_user_role role on user.user_id = role.user_id
-		where role.role_id = 1
+		<where>
+			role.role_id = 1
+			<if test="_parameter != null and _parameter != ''">
+				and chinese_name like concat('%', #{chineseName,jdbcType=VARCHAR}, '%')
+			</if>
+		</where>
 	</select>
 
 </mapper>

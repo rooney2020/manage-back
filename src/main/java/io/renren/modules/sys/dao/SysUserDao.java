@@ -41,6 +41,6 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	/**
 	 * 查询所有管理员信息
 	 */
-	List<SysUserEntity> queryAllSuper();
+	List<SysUserEntity> queryAllSuper(String chineseName);
 
 }

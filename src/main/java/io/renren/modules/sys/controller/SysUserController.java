@@ -170,8 +170,8 @@ public class SysUserController extends AbstractController {
 	 * 查询所有管理员信息
 	 */
 	@GetMapping("/super")
-	public R superList() {
-		List<SysUserEntity> list = sysUserService.queryAllSuper();
+	public R superList(@RequestParam(value = "chineseName", required = false) String chineseName) {
+		List<SysUserEntity> list = sysUserService.queryAllSuper(chineseName);
 		return R.ok().put("data", list).put("total", list.size());
 	}
 }
