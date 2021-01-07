@@ -50,10 +50,6 @@ public class SysUserController extends AbstractController {
 	@GetMapping("/list")
 	@RequiresPermissions("sys:user:list")
 	public R list(@RequestParam Map<String, Object> params){
-		//只有超级管理员，才能查看所有管理员列表
-		if(getUserId() != Constant.SUPER_ADMIN && getUserId() != Constant.SUPER_ADMIN2){
-			params.put("createUserId", getUserId());
-		}
 		PageUtils page = sysUserService.queryPage(params);
 
 		return R.ok().put("page", page);
