@@ -68,7 +68,7 @@ public class SysRoleController extends AbstractController {
 		}
 		List<SysRoleEntity> list = (List<SysRoleEntity>) sysRoleService.listByMap(map);
 		SysRoleEntity entity = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>().lambda().eq(SysRoleEntity::getRoleId, 2));
-		if (null != entity) {
+		if (null != entity && !list.contains(entity)) {
 			list.add(entity);
 		}
 		return R.ok().put("list", list);
