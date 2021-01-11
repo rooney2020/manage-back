@@ -157,7 +157,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
                 new Query<SysUserEntity>().getPage(params),
                 new QueryWrapper<SysUserEntity>()
                         .like(StringUtils.isNotBlank(username), "username", username)
-                        .eq(superId != null && superId != 0, "super_id", superId)
+                        .eq(superId != null && superId != 1, "super_id", superId)
         );
 
         return new PageUtils(page);

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021.01.07
  */
 public class CommonConfig {
-    public static final String URL = "D:/upload";
-    public static final String UPLOAD_PATH = "D:/upload";
+    public static final String URL = "/home/projects/upload";
+    public static final String UPLOAD_PATH = "/home/projects/upload";
     public static final String RESOURCE_PREFIX = "/profile";
 
     /**

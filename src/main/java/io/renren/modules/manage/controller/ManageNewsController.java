@@ -36,9 +36,10 @@ public class ManageNewsController extends AbstractController {
      * 新闻管理列表
      */
     @GetMapping("/list")
-    public R list() {
+    public R list(@RequestParam(value = "title", required = false) String title) {
         List<ManageNewsEntity> list = service.list(
                 new QueryWrapper<ManageNewsEntity>().lambda()
+                        .like(title != null && "".equals(title), ManageNewsEntity::getTitle, title)
                         .orderBy(true, false, ManageNewsEntity::getCreateTime)
         );
         return R.ok().put("data", list).put("total", list.size());
