@@ -1,9 +1,9 @@
-package io.renren.modules.manage.mapper;
+package io.renren.modules.manage.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.manage.entity.ManageNewsEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ManageNewsMapper extends BaseMapper<ManageNewsEntity> {
+public interface ManageNewsDao extends BaseMapper<ManageNewsEntity> {
 }

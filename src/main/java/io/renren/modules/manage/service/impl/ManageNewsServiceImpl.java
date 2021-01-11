@@ -6,16 +6,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.manage.entity.ManageNewsEntity;
-import io.renren.modules.manage.mapper.ManageNewsMapper;
+import io.renren.modules.manage.dao.ManageNewsDao;
 import io.renren.modules.manage.service.ManageNewsService;
-import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service("manageNewsService")
-public class ManageNewsServiceImpl extends ServiceImpl<ManageNewsMapper, ManageNewsEntity> implements ManageNewsService {
+public class ManageNewsServiceImpl extends ServiceImpl<ManageNewsDao, ManageNewsEntity> implements ManageNewsService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
