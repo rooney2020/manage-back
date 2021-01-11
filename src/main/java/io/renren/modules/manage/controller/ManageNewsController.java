@@ -1,6 +1,7 @@
 package io.renren.modules.manage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/manage-news")
@@ -36,13 +38,9 @@ public class ManageNewsController extends AbstractController {
      * 新闻管理列表
      */
     @GetMapping("/list")
-    public R list(@RequestParam(value = "title", required = false) String title) {
-        List<ManageNewsEntity> list = service.list(
-                new QueryWrapper<ManageNewsEntity>().lambda()
-                        .like(title != null && !"".equals(title), ManageNewsEntity::getTitle, title)
-                        .orderBy(true, false, ManageNewsEntity::getCreateTime)
-        );
-        return R.ok().put("data", list).put("total", list.size());
+    public R list(@RequestParam Map<String, Object> params) {
+        PageUtils page = service.queryPage(params);
+        return R.ok().put("data", page);
     }
 
     /**
