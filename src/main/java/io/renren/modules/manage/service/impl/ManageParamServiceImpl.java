@@ -46,4 +46,9 @@ public class ManageParamServiceImpl extends ServiceImpl<ManageParamDao, ManagePa
         return page;
     }
 
+    @Override
+    public int removeByGroupIds(Long[] groupIds) {
+        return dao.removeByGroupIds(groupIds);
+    }
+
 }

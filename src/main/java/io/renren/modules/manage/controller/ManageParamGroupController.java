@@ -3,8 +3,10 @@ package io.renren.modules.manage.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.modules.manage.service.ManageParamService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +28,12 @@ import io.renren.common.utils.R;
  * @date 2021-01-11 14:49:54
  */
 @RestController
-@RequestMapping("manage/manageparamgroup")
+@RequestMapping("/manage-paramgroup")
 public class ManageParamGroupController {
     @Autowired
     private ManageParamGroupService manageParamGroupService;
+    @Autowired
+    private ManageParamService manageParamService;
 
     /**
      * 列表
@@ -81,7 +85,9 @@ public class ManageParamGroupController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("manage:manageparamgroup:delete")
+    @Transactional(rollbackFor = Exception.class)
     public R delete(@RequestBody Long[] groupIds){
+        manageParamService.removeByGroupIds(groupIds);
 		manageParamGroupService.removeByIds(Arrays.asList(groupIds));
 
         return R.ok();

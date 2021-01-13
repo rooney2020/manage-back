@@ -10,6 +10,7 @@ import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
     * 新闻表
@@ -22,6 +23,7 @@ public class ManageNewsEntity {
      * 新闻id
      */
     @TableId
+    @NotNull(message="新闻id不能为空", groups = {UpdateGroup.class})
     private Long newsId;
 
     /**

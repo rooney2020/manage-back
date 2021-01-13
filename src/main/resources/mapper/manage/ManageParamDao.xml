@@ -24,14 +24,17 @@
         </collection>
     </resultMap>
     <select id="getList" resultMap="manageParamGroupMap">
-        select distinct mpg.group_id, group_name, IFNULL('${name}', '') as name from
+        select distinct group_id, group_name, IFNULL('${name}', '') as name from
+        (select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
         manage_param_group mpg right join manage_param mp on mpg.group_id = mp.group_id
+        union select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
+        manage_param_group mpg left join manage_param mp on mpg.group_id = mp.group_id) as data
         <where>
             <if test="name != null and name != ''">
-                group_name like concat('%', #{name}, '%') or mp.param_name like concat('%', #{name}, '%')
+                group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')
             </if>
         </where>
-        order by mpg.group_id desc
+        order by group_id desc
         <if test="page != null and limit != null">
             limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
         </if>
@@ -49,4 +52,11 @@
             </if>
         </where>
     </select>
+    <delete id="removeByGroupIds">
+        delete from manage_param
+        where group_id in
+        <foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+            #{groupId}
+        </foreach>
+    </delete>
 </mapper>

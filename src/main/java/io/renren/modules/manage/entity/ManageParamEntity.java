@@ -5,7 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 参数表
@@ -23,19 +29,27 @@ public class ManageParamEntity implements Serializable {
 	 * 自增主键
 	 */
 	@TableId
+	@NotNull(message="参数id不能为空", groups = {UpdateGroup.class})
 	private Long paramId;
+
 	/**
 	 * 所属参数组id
 	 */
+	@NotNull(message="参数组id不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private Long groupId;
+
 	/**
 	 * 参数名
 	 */
+	@NotBlank(message="参数名不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String paramName;
+
 	/**
 	 * 参数值
 	 */
+	@NotBlank(message="参数值不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String paramValue;
+
 	/**
 	 * 备注
 	 */

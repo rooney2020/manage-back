@@ -18,5 +18,7 @@ public interface ManageParamService extends IService<ManageParamEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils getList(Map<String, Object> params);
+
+    int removeByGroupIds(Long[] groupIds);
 }
 

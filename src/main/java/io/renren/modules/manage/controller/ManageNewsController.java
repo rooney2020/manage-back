@@ -5,6 +5,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.manage.entity.ManageNewsEntity;
 import io.renren.modules.manage.service.ManageNewsService;
 import io.renren.modules.sys.controller.AbstractController;
@@ -61,9 +62,7 @@ public class ManageNewsController extends AbstractController {
      */
     @PostMapping("/update")
     public R updateNews(@RequestBody ManageNewsEntity entity) {
-        if (null == entity.getNewsId()) {
-            return R.error("newsId不能为空");
-        }
+        ValidatorUtils.validateEntity(entity, UpdateGroup.class);
         boolean b = service.updateById(entity);
         if (!b) {
             return R.error("修改失败");
