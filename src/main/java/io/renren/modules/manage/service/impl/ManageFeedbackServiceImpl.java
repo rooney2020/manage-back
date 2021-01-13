@@ -18,9 +18,15 @@ public class ManageFeedbackServiceImpl extends ServiceImpl<ManageFeedbackDao, Ma
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String status = (String) params.get("status");
+        String userId = (String) params.get("userId");
+        String resolveUserId = (String) params.get("resolveUserId");
         IPage<ManageFeedbackEntity> page = this.page(
                 new Query<ManageFeedbackEntity>().getPage(params),
-                new QueryWrapper<ManageFeedbackEntity>()
+                new QueryWrapper<ManageFeedbackEntity>().lambda()
+                .eq(status != null && !"".equals(status), ManageFeedbackEntity::getStatus, status)
+                .eq(userId != null && !"".equals(userId), ManageFeedbackEntity::getUserId, userId)
+                .eq(resolveUserId != null && !"".equals(resolveUserId), ManageFeedbackEntity::getResolveUserId, resolveUserId)
         );
 
         return new PageUtils(page);
