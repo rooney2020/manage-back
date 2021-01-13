@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.manage.dao.ManageParamDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageParamEntity" id="manageParamMap">
         <result property="paramId" column="param_id"/>
         <result property="groupId" column="group_id"/>
@@ -11,6 +11,42 @@
         <result property="paramValue" column="param_value"/>
         <result property="remark" column="remark"/>
     </resultMap>
-
-
+    <resultMap type="io.renren.modules.manage.entity.ManageParamGroupEntity" id="manageParamGroupMap">
+        <result property="groupId" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+        <collection property="data" ofType="io.renren.modules.manage.entity.ManageParamEntity" select="getDataList"
+                    column="{groupId=group_id, name=name}">
+            <result property="paramId" column="param_id"/>
+            <result property="groupId" column="group_id"/>
+            <result property="paramName" column="param_name"/>
+            <result property="paramValue" column="param_value"/>
+            <result property="remark" column="remark"/>
+        </collection>
+    </resultMap>
+    <select id="getList" resultMap="manageParamGroupMap">
+        select distinct mpg.group_id, group_name, IFNULL('${name}', '') as name from
+        manage_param_group mpg right join manage_param mp on mpg.group_id = mp.group_id
+        <where>
+            <if test="name != null and name != ''">
+                group_name like concat('%', #{name}, '%') or mp.param_name like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by mpg.group_id desc
+        <if test="page != null and limit != null">
+            limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="getDataList" resultType="io.renren.modules.manage.entity.ManageParamEntity">
+        select param_id, mp.group_id, param_name, param_value, remark from manage_param mp left join manage_param_group
+        mpg
+        on mp.group_id = mpg.group_id
+        <where>
+            <if test="groupId != null">
+                mp.group_id = #{groupId}
+            </if>
+            <if test="name != null and name != ''">
+                and (mpg.group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%'))
+            </if>
+        </where>
+    </select>
 </mapper>

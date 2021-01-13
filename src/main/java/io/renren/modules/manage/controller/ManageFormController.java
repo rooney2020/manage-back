@@ -35,10 +35,8 @@ public class ManageFormController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:manageform:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = manageFormService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 

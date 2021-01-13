@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ManageParamService extends IService<ManageParamEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getList(Map<String, Object> params);
 }
 

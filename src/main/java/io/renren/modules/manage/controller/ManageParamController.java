@@ -26,7 +26,7 @@ import io.renren.common.utils.R;
  * @date 2021-01-11 14:49:54
  */
 @RestController
-@RequestMapping("manage/manageparam")
+@RequestMapping("/manage-param")
 public class ManageParamController {
     @Autowired
     private ManageParamService manageParamService;
@@ -37,7 +37,7 @@ public class ManageParamController {
     @RequestMapping("/list")
     @RequiresPermissions("manage:manageparam:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = manageParamService.queryPage(params);
+        PageUtils page = manageParamService.getList(params);
 
         return R.ok().put("page", page);
     }
