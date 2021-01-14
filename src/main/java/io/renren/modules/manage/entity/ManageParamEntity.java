@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
 
@@ -35,24 +36,25 @@ public class ManageParamEntity implements Serializable {
 	/**
 	 * 所属参数组id
 	 */
-	@NotNull(message="参数组id不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotNull(message="参数组id不能为空", groups = {AddGroup.class, UpdateGroup.class, DealGroup.class})
 	private Long groupId;
 
 	/**
 	 * 参数名
 	 */
-	@NotBlank(message="参数名不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotBlank(message="参数名不能为空", groups = {AddGroup.class, UpdateGroup.class, DealGroup.class})
 	private String paramName;
 
 	/**
 	 * 参数值
 	 */
-	@NotBlank(message="参数值不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotBlank(message="参数值不能为空", groups = {AddGroup.class, UpdateGroup.class, DealGroup.class})
 	private String paramValue;
 
 	/**
 	 * 备注
 	 */
+	@NotBlank(message="备注不能为空", groups = {DealGroup.class})
 	private String remark;
 
 }

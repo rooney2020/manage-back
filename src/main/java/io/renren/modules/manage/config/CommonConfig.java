@@ -19,6 +19,7 @@ public class CommonConfig {
     public static final String PROV_CODE = "PROV_CODE";
     public static final String CITY_CODE = "CITY_CODE";
     public static final String AREA_CODE = "AREA_CODE";
+    public static final String VISIT_PROV = "VISIT_PROV";
     public static final String PROV_PREFIX = "PROV_";
     public static final String CITY_PREFIX = "CITY_";
     public static final String AREA_PREFIX = "AREA_";

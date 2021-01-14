@@ -79,10 +79,12 @@
         </where>
         ) as data
     </select>
-    <select id="cities" resultType="io.renren.modules.manage.entity.ManageParamEntity">
+    <select id="getParams" resultType="io.renren.modules.manage.entity.ManageParamEntity">
         select mp.* from manage_param mp left join manage_param_group mpg on mp.group_id = mpg.group_id
         <where>
-            mpg.group_name = #{groupName}
+            <if test="groupName!= null and groupName != ''">
+                mpg.group_name = #{groupName}
+            </if>
             <if test="code != null and code != ''">
                 and mp.param_name like concat(#{code,jdbcType=VARCHAR}, '%')
             </if>
