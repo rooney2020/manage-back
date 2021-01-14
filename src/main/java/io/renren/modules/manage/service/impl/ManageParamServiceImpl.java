@@ -1,5 +1,6 @@
 package io.renren.modules.manage.service.impl;
 
+import io.renren.modules.manage.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +35,19 @@ public class ManageParamServiceImpl extends ServiceImpl<ManageParamDao, ManagePa
 
     @Override
     public PageUtils getList(Map<String, Object> params) {
-        int currPage = Integer.parseInt((String) params.get("page"));
-        int pageSize = Integer.parseInt((String) params.get("limit"));
+        Integer currPage = 1;
+        Integer pageSize = 10;
         if (params.containsKey("page") && params.containsKey("limit")) {
-            params.put("page", (currPage - 1) * pageSize);
-            params.put("limit", pageSize);
+            if (CommonUtil.isEmpty((String) params.get("page")) && CommonUtil.isEmpty((String) params.get("limit"))) {
+                currPage = Integer.parseInt((String) params.get("page"));
+                pageSize = Integer.parseInt((String) params.get("limit"));
+
+            }
         }
+        params.put("page", (currPage - 1) * pageSize);
+        params.put("limit", pageSize);
         List<ManageParamEntity> list = dao.getList(params);
-        int totalCount = list.size();
+        int totalCount = dao.getListSize(params);
         PageUtils page = new PageUtils(list, totalCount, pageSize, currPage);
         return page;
     }

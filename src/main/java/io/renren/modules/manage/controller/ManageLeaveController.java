@@ -1,15 +1,17 @@
 package io.renren.modules.manage.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
+import io.renren.common.utils.Constant;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.service.ManageParamService;
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManageLeaveEntity;
 import io.renren.modules.manage.service.ManageLeaveService;
@@ -26,8 +28,8 @@ import io.renren.common.utils.R;
  * @date 2021-01-11 14:49:54
  */
 @RestController
-@RequestMapping("manage/manageleave")
-public class ManageLeaveController {
+@RequestMapping("/manage-leave")
+public class ManageLeaveController extends AbstractController {
     @Autowired
     private ManageLeaveService manageLeaveService;
 
@@ -37,7 +39,10 @@ public class ManageLeaveController {
     @RequestMapping("/list")
     @RequiresPermissions("manage:manageleave:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = manageLeaveService.queryPage(params);
+        if (getUserId() != Constant.SUPER_ADMIN) {
+            params.put("dealId", getUserId());
+        }
+        PageUtils page = manageLeaveService.getList(params);
 
         return R.ok().put("page", page);
     }
@@ -60,6 +65,13 @@ public class ManageLeaveController {
     @RequestMapping("/save")
     @RequiresPermissions("manage:manageleave:save")
     public R save(@RequestBody ManageLeaveEntity manageLeave){
+        manageLeave.setUserId(getUserId());
+        manageLeave.setCreateTime(new Date());
+        manageLeave.setStatus(0);
+        ValidatorUtils.validateEntity(manageLeave, AddGroup.class);
+        if (manageLeave.getTotalCount() % 4 != 0) {
+            return R.error("总工时必须是4的倍数");
+        }
 		manageLeaveService.save(manageLeave);
 
         return R.ok();
@@ -71,7 +83,20 @@ public class ManageLeaveController {
     @RequestMapping("/update")
     @RequiresPermissions("manage:manageleave:update")
     public R update(@RequestBody ManageLeaveEntity manageLeave){
+        ValidatorUtils.validateEntity(manageLeave, UpdateGroup.class);
 		manageLeaveService.updateById(manageLeave);
+
+        return R.ok();
+    }
+
+    /**
+     * 处理
+     */
+    @RequestMapping("/deal")
+    @RequiresPermissions("manage:manageleave:deal")
+    public R deal(@RequestBody ManageLeaveEntity manageLeave){
+        ValidatorUtils.validateEntity(manageLeave, DealGroup.class);
+        manageLeaveService.updateById(manageLeave);
 
         return R.ok();
     }
@@ -85,6 +110,15 @@ public class ManageLeaveController {
 		manageLeaveService.removeByIds(Arrays.asList(leaveIds));
 
         return R.ok();
+    }
+
+    /**
+     * 员工请假信息
+     */
+    @GetMapping("/personal")
+    public R personal() {
+        List<Map<String, Object>> personal = manageLeaveService.personal(getUserId());
+        return R.ok().put("data", personal);
     }
 
 }

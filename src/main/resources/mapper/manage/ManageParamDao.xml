@@ -59,4 +59,23 @@
             #{groupId}
         </foreach>
     </delete>
+    <select id="getParamList" resultType="io.renren.modules.manage.entity.ManageParamEntity">
+        select mp.*
+        from manage_param mp
+                 left join manage_param_group mpg on mp.group_id = mpg.group_id
+        where mpg.group_name = #{groupName,jdbcType=VARCHAR}
+    </select>
+    <select id="getListSize" resultType="int">
+        select count(*) from (
+        select distinct group_id, group_name, IFNULL('${name}', '') as name from
+        (select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
+        manage_param_group mpg right join manage_param mp on mpg.group_id = mp.group_id
+        union select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
+        manage_param_group mpg left join manage_param mp on mpg.group_id = mp.group_id) as data
+        <where>
+            <if test="name != null and name != ''">
+                group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')
+            </if>
+        </where>) as data
+    </select>
 </mapper>

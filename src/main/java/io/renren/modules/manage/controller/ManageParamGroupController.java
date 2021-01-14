@@ -3,6 +3,9 @@ package io.renren.modules.manage.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.manage.service.ManageParamService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +67,7 @@ public class ManageParamGroupController {
     @RequestMapping("/save")
     @RequiresPermissions("manage:manageparamgroup:save")
     public R save(@RequestBody ManageParamGroupEntity manageParamGroup){
+        ValidatorUtils.validateEntity(manageParamGroup, AddGroup.class);
 		manageParamGroupService.save(manageParamGroup);
 
         return R.ok();
@@ -75,6 +79,7 @@ public class ManageParamGroupController {
     @RequestMapping("/update")
     @RequiresPermissions("manage:manageparamgroup:update")
     public R update(@RequestBody ManageParamGroupEntity manageParamGroup){
+        ValidatorUtils.validateEntity(manageParamGroup, UpdateGroup.class);
 		manageParamGroupService.updateById(manageParamGroup);
 
         return R.ok();

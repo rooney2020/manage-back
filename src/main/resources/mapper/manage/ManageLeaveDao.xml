@@ -3,18 +3,44 @@
 
 <mapper namespace="io.renren.modules.manage.dao.ManageLeaveDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageLeaveEntity" id="manageLeaveMap">
         <result property="leaveId" column="leave_id"/>
         <result property="userId" column="user_id"/>
-        <result property="approveId" column="approve_id"/>
+        <result property="dealId" column="deal_id"/>
         <result property="beginTime" column="begin_time"/>
         <result property="endTime" column="end_time"/>
-        <result property="approveTime" column="approve_time"/>
+        <result property="etlTime" column="etl_time"/>
         <result property="createTime" column="create_time"/>
         <result property="status" column="status"/>
         <result property="leaveType" column="leave_type"/>
+        <result property="totalCount" column="total_count"/>
     </resultMap>
-
+    <select id="personal" resultType="map">
+        SELECT
+        <foreach collection="list" item="leave" separator=",">
+            SUM(
+            CASE
+            WHEN leave_type=#{leave.paramValue,jdbcType=VARCHAR}
+            THEN `total_count`
+            ELSE 0
+            END) AS #{leave.paramName,jdbcType=VARCHAR}
+        </foreach>
+        FROM manage_leave
+        where user_id = #{userId,jdbcType=BIGINT} and status = 1
+        GROUP BY leave_type
+    </select>
+    <select id="getList" resultType="io.renren.modules.manage.entity.ManageLeaveEntity">
+        select ml.* from manage_leave ml left join sys_user su on ml.user_id = su.user_id
+        where su.super_id = #{dealId}
+        order by ml.leave_id desc
+        <if test="page != null and limit != null">
+            limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="getListSize" resultType="int">
+        select count(*) from manage_leave ml left join sys_user su on ml.user_id = su.user_id
+        where su.super_id = #{dealId}
+    </select>
 
 </mapper>

@@ -19,6 +19,9 @@ import java.util.Map;
 public interface ManageParamDao extends BaseMapper<ManageParamEntity> {
     @SuppressWarnings("all")
     List<ManageParamEntity> getList(Map<String, Object> params);
+    List<ManageParamEntity> getParamList(@Param("groupName") String groupName);
 
     int removeByGroupIds(@Param("groupIds") Long[] groupIds);
+
+    int getListSize(Map<String, Object> params);
 }

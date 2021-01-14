@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -68,7 +69,7 @@ public class ManageFeedbackController extends AbstractController {
         manageFeedback.setStatus(0);
         manageFeedback.setCreateTime(new Date());
         manageFeedback.setMobile(getUser().getMobile());
-        ValidatorUtils.validateEntity(manageFeedback);
+        ValidatorUtils.validateEntity(manageFeedback, AddGroup.class);
 		manageFeedbackService.save(manageFeedback);
 
         return R.ok();
