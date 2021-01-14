@@ -1,18 +1,19 @@
 package io.renren.modules.manage.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.config.CommonConfig;
+import io.renren.modules.manage.dao.ManageParamDao;
+import io.renren.modules.manage.entity.CodeEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManageParamEntity;
 import io.renren.modules.manage.service.ManageParamService;
@@ -33,6 +34,8 @@ import io.renren.common.utils.R;
 public class ManageParamController {
     @Autowired
     private ManageParamService manageParamService;
+    @Autowired
+    private ManageParamDao paramDao;
 
     /**
      * 列表
@@ -91,5 +94,93 @@ public class ManageParamController {
 
         return R.ok();
     }
+
+    /**
+     * 导入省市区code
+     */
+    @RequestMapping("test")
+    public R test(@RequestBody CodeEntity[] codeEntities) {
+        final Long PROV_PARENT = 3L;
+        final Long CITY_PARENT = 4L;
+        final Long AREA_PARENT = 5L;
+        final String PROV_PREFIX = "PROV_";
+        final String CITY_PREFIX = "CITY_";
+        final String AREA_PREFIX = "AREA_";
+        final String DELIMETER = "_";
+        int provSize = codeEntities.length;
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        for (CodeEntity prov : codeEntities) {
+            i++;
+            j=0;
+            System.out.println("==============================================================================================================");
+            System.out.println("省：" + i + " / " + provSize);
+            ManageParamEntity param = new ManageParamEntity();
+            param.setGroupId(PROV_PARENT);
+            param.setParamName(PROV_PREFIX + prov.getCode());
+            param.setParamValue(String.valueOf(prov.getCode()));
+            param.setRemark(prov.getName());
+            paramDao.insert(param);
+            if (null != prov.getChildren()) {
+                int citySize = prov.getChildren().length;
+                for (CodeEntity city : prov.getChildren()) {
+                    j++;
+                    k=0;
+                    System.out.println("==============================================================================================================");
+                    System.out.println("省：" + i + " / " + provSize + " 市：" + j + " / " + citySize);
+                    ManageParamEntity cityParam = new ManageParamEntity();
+                    cityParam.setGroupId(CITY_PARENT);
+                    cityParam.setParamName(PROV_PREFIX + prov.getCode() + DELIMETER + CITY_PREFIX + city.getCode());
+                    cityParam.setParamValue(String.valueOf(city.getCode()));
+                    cityParam.setRemark(city.getName());
+                    paramDao.insert(cityParam);
+                    if (null != city.getChildren()) {
+                        int areaSize = city.getChildren().length;
+                        for (CodeEntity area : city.getChildren()) {
+                            System.out.println("==============================================================================================================");
+                            System.out.println("省：" + i + " / " + provSize + " 市：" + j + " / " + citySize + " 区：" + ++k + " / " + areaSize);
+                            ManageParamEntity areaParam = new ManageParamEntity();
+                            areaParam.setGroupId(AREA_PARENT);
+                            areaParam.setParamName(PROV_PREFIX + prov.getCode() + DELIMETER + CITY_PREFIX + city.getCode() + DELIMETER + AREA_PREFIX + area.getCode());
+                            areaParam.setParamValue(String.valueOf(area.getCode()));
+                            areaParam.setRemark(area.getName());
+                            paramDao.insert(areaParam);
+                        }
+                    }
+                }
+            }
+        }
+        return R.ok();
+    }
+
+    /**
+     * 获取省份列表
+     */
+    @GetMapping("/provs")
+    public R provs() {
+        List<ManageParamEntity> provs = paramDao.cities(CommonConfig.PROV_CODE, null);
+        return R.ok().put("data", provs);
+    }
+
+    /**
+     * 获取市级列表
+     */
+    @GetMapping("/cities")
+    public R cities(@RequestParam("code") String code) {
+        List<ManageParamEntity> cities = paramDao.cities(CommonConfig.CITY_CODE, code);
+        return R.ok().put("data", cities);
+    }
+
+    /**
+     * 获取区级列表
+     */
+    @GetMapping("/areas")
+    public R areas(@RequestParam("code") String code) {
+        List<ManageParamEntity> areas = paramDao.cities(CommonConfig.AREA_CODE, code);
+        return R.ok().put("data", areas);
+    }
+
+
 
 }

@@ -24,4 +24,6 @@ public interface ManageParamDao extends BaseMapper<ManageParamEntity> {
     int removeByGroupIds(@Param("groupIds") Long[] groupIds);
 
     int getListSize(Map<String, Object> params);
+
+    List<ManageParamEntity> cities(@Param("groupName") String groupName, @Param("code") String code);
 }

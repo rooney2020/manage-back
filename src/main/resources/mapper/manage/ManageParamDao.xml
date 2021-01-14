@@ -76,6 +76,16 @@
             <if test="name != null and name != ''">
                 group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')
             </if>
-        </where>) as data
+        </where>
+        ) as data
+    </select>
+    <select id="cities" resultType="io.renren.modules.manage.entity.ManageParamEntity">
+        select mp.* from manage_param mp left join manage_param_group mpg on mp.group_id = mpg.group_id
+        <where>
+            mpg.group_name = #{groupName}
+            <if test="code != null and code != ''">
+                and mp.param_name like concat(#{code,jdbcType=VARCHAR}, '%')
+            </if>
+        </where>
     </select>
 </mapper>

@@ -5,7 +5,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
 import lombok.Data;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 自主填报-动态表单
@@ -25,44 +33,55 @@ public class ManageFormEntity implements Serializable {
 	@TableId
 	private Long formId;
 	/**
-	 * 部门id
+	 * 所在省市区id
 	 */
-	private Long deptId;
+	@NotNull(message = "所在省市区id不能为空", groups = {AddGroup.class, DealGroup.class})
+	private Integer provId;
 	/**
-	 * 表单名称
+	 * 是否到访过，0：否，1：是
 	 */
-	private String formName;
+	@NotNull(message = "是否到访过疫情地区不能为空", groups = {AddGroup.class, DealGroup.class})
+	@Min(value = 0, message = "非法参数：是否到访过疫情地区", groups = {AddGroup.class, DealGroup.class})
+	@Max(value = 1, message = "非法参数：是否到访过疫情地区", groups = {AddGroup.class, DealGroup.class})
+	private Integer isVisit;
 	/**
-	 * 排序
+	 * 到访省市区
 	 */
-	private Long sort;
+	@NotBlank(message = "到访省市区不能为空", groups = {DealGroup.class})
+	private String visitProv;
 	/**
-	 * 发布标记（0：待发布；1：发布中；2：截止）
+	 * 身体状况
 	 */
-	private String sendFlag;
+	@NotBlank(message = "身体状况不能为空", groups = {DealGroup.class})
+	private String healthStatus;
 	/**
-	 * 备注
+	 * 工作状态
 	 */
-	private String remark;
+	@NotBlank(message = "工作状态不能为空", groups = {DealGroup.class})
+	private String workStatus;
 	/**
-	 * 创建者
+	 * 工作地点
 	 */
-	private String createBy;
+	@NotBlank(message = "工作地点不能为空", groups = {DealGroup.class})
+	private String workPlace;
 	/**
-	 * 创建时间
+	 * 接触同事范围
 	 */
-	private Date createTime;
+	@NotBlank(message = "接触同事范围不能为空", groups = {DealGroup.class})
+	private String workmateRange;
 	/**
-	 * 更新者
+	 * 后续安排
 	 */
-	private String updateBy;
+	@NotBlank(message = "后续安排不能为空", groups = {DealGroup.class})
+	private String arrangement;
 	/**
-	 *
+	 * 填报时间
 	 */
-	private Date updateTime;
+	@NotNull(message = "填报时间不能为空", groups = {AddGroup.class, DealGroup.class})
+	private Date etlTime;
 	/**
-	 * 删除标志（0：未删除 1：已删除）
+	 * 填报人id
 	 */
-	private String delFlag;
-
+	@NotNull(message = "填报人id不能为空", groups = {AddGroup.class, DealGroup.class})
+	private Long userId;
 }

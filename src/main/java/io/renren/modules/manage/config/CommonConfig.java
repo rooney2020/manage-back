@@ -16,6 +16,14 @@ public class CommonConfig {
     public static final String UPLOAD_PATH = "/home/projects/upload";
     public static final String RESOURCE_PREFIX = "/profile";
 
+    public static final String PROV_CODE = "PROV_CODE";
+    public static final String CITY_CODE = "CITY_CODE";
+    public static final String AREA_CODE = "AREA_CODE";
+    public static final String PROV_PREFIX = "PROV_";
+    public static final String CITY_PREFIX = "CITY_";
+    public static final String AREA_PREFIX = "AREA_";
+    public static final String UNDER_DELIMETER = "_";
+
     /**
      * 获取完整的请求路径，包括：域名，端口，上下文访问路径
      *

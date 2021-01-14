@@ -1,21 +1,26 @@
 package io.renren.modules.manage.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
+import io.renren.modules.manage.dao.ManageParamDao;
+import io.renren.modules.manage.dao.ManageParamGroupDao;
+import io.renren.modules.manage.entity.CodeEntity;
+import io.renren.modules.manage.entity.ManageParamEntity;
+import io.renren.modules.sys.controller.AbstractController;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManageFormEntity;
 import io.renren.modules.manage.service.ManageFormService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
-
 
 
 /**
@@ -27,7 +32,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("manage/manageform")
-public class ManageFormController {
+public class ManageFormController extends AbstractController {
     @Autowired
     private ManageFormService manageFormService;
 
@@ -35,7 +40,7 @@ public class ManageFormController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageFormService.queryPage(params);
         return R.ok().put("page", page);
     }
@@ -46,8 +51,8 @@ public class ManageFormController {
      */
     @RequestMapping("/info/{formId}")
     @RequiresPermissions("manage:manageform:info")
-    public R info(@PathVariable("formId") Long formId){
-		ManageFormEntity manageForm = manageFormService.getById(formId);
+    public R info(@PathVariable("formId") Long formId) {
+        ManageFormEntity manageForm = manageFormService.getById(formId);
 
         return R.ok().put("manageForm", manageForm);
     }
@@ -57,9 +62,14 @@ public class ManageFormController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("manage:manageform:save")
-    public R save(@RequestBody ManageFormEntity manageForm){
-		manageFormService.save(manageForm);
-
+    public R save(@RequestBody ManageFormEntity manageForm) {
+        manageForm.setEtlTime(new Date());
+        manageForm.setUserId(getUserId());
+        ValidatorUtils.validateEntity(manageForm, AddGroup.class);
+        if (manageForm.getIsVisit() == 1) {
+            ValidatorUtils.validateEntity(manageForm, DealGroup.class);
+        }
+        manageFormService.save(manageForm);
         return R.ok();
     }
 
@@ -68,8 +78,8 @@ public class ManageFormController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("manage:manageform:update")
-    public R update(@RequestBody ManageFormEntity manageForm){
-		manageFormService.updateById(manageForm);
+    public R update(@RequestBody ManageFormEntity manageForm) {
+        manageFormService.updateById(manageForm);
 
         return R.ok();
     }
@@ -79,10 +89,9 @@ public class ManageFormController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("manage:manageform:delete")
-    public R delete(@RequestBody Long[] formIds){
-		manageFormService.removeByIds(Arrays.asList(formIds));
+    public R delete(@RequestBody Long[] formIds) {
+        manageFormService.removeByIds(Arrays.asList(formIds));
 
         return R.ok();
     }
-
 }
