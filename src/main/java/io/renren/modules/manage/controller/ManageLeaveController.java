@@ -98,6 +98,13 @@ public class ManageLeaveController extends AbstractController {
         manageLeave.setDealId(getUserId());
         manageLeave.setEtlTime(new Date());
         ValidatorUtils.validateEntity(manageLeave, DealGroup.class);
+        ManageLeaveEntity entity = manageLeaveService.getById(manageLeave.getLeaveId());
+        if (entity == null) {
+            return R.error("请假信息不存在");
+        }
+        if (entity.getStatus() != 0) {
+            return R.error("该请假信息已被审核");
+        }
         manageLeaveService.updateById(manageLeave);
 
         return R.ok();

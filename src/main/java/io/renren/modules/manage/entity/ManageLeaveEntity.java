@@ -69,8 +69,10 @@ public class ManageLeaveEntity implements Serializable {
 	 * 0：创建，1：批准，2：拒绝
 	 */
 	@NotNull(message="请假状态不能为空", groups = {AddGroup.class, UpdateGroup.class, DealGroup.class})
-	@Min(0)
-	@Max(2)
+	@Min(value = 0, message = "非法状态", groups = {AddGroup.class, UpdateGroup.class})
+	@Max(value = 0, message = "非法状态", groups = {AddGroup.class, UpdateGroup.class})
+	@Min(value = 1, message = "非法状态", groups = {DealGroup.class})
+	@Max(value = 2, message = "非法状态", groups = {DealGroup.class})
 	private Integer status;
 	/**
 	 * 0：带薪假，1：病假，2：无薪假，3：事假，4：年假，5：居家办公
