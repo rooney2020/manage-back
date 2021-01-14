@@ -95,6 +95,8 @@ public class ManageLeaveController extends AbstractController {
     @RequestMapping("/deal")
     @RequiresPermissions("manage:manageleave:deal")
     public R deal(@RequestBody ManageLeaveEntity manageLeave){
+        manageLeave.setDealId(getUserId());
+        manageLeave.setEtlTime(new Date());
         ValidatorUtils.validateEntity(manageLeave, DealGroup.class);
         manageLeaveService.updateById(manageLeave);
 
