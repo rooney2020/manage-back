@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 @TableName("manage_param_group")
 public class ManageParamGroupEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	private Integer uuid;
 	/**
 	 * 自增主键
 	 */

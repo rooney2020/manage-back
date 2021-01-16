@@ -2,6 +2,7 @@ package io.renren.modules.manage.dao;
 
 import io.renren.modules.manage.entity.ManageParamEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.manage.entity.ManageParamGroupEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 @Mapper
 public interface ManageParamDao extends BaseMapper<ManageParamEntity> {
     @SuppressWarnings("all")
-    List<ManageParamEntity> getList(Map<String, Object> params);
+    List<ManageParamGroupEntity> getList(Map<String, Object> params);
     List<ManageParamEntity> getParamList(@Param("groupName") String groupName);
 
     int removeByGroupIds(@Param("groupIds") Long[] groupIds);
