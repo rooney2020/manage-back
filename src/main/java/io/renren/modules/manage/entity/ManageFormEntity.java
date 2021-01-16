@@ -35,8 +35,8 @@ public class ManageFormEntity implements Serializable {
 	/**
 	 * 所在省市区id
 	 */
-	@NotNull(message = "所在省市区id不能为空", groups = {AddGroup.class, DealGroup.class})
-	private Integer provId;
+	@NotBlank(message = "所在省市区id不能为空", groups = {AddGroup.class, DealGroup.class})
+	private String provId;
 	/**
 	 * 是否到访过，0：否，1：是
 	 */
@@ -50,15 +50,19 @@ public class ManageFormEntity implements Serializable {
 	@NotBlank(message = "到访省市区不能为空", groups = {DealGroup.class})
 	private String visitProv;
 	/**
-	 * 身体状况
+	 * 身体状况，0：发烧感冒，1：一切正常
 	 */
 	@NotBlank(message = "身体状况不能为空", groups = {DealGroup.class})
-	private String healthStatus;
+	@Min(value = 0, message = "非法参数：身体状况", groups = {DealGroup.class})
+	@Max(value = 1, message = "非法参数：身体状况", groups = {DealGroup.class})
+	private Integer healthStatus;
 	/**
-	 * 工作状态
+	 * 工作状态，0：在家隔离，1：正常上班，2请假休假
 	 */
 	@NotBlank(message = "工作状态不能为空", groups = {DealGroup.class})
-	private String workStatus;
+	@Min(value = 0, message = "非法参数：工作状态", groups = {DealGroup.class})
+	@Max(value = 2, message = "非法参数：工作状态", groups = {DealGroup.class})
+	private Integer workStatus;
 	/**
 	 * 工作地点
 	 */
@@ -70,10 +74,12 @@ public class ManageFormEntity implements Serializable {
 	@NotBlank(message = "接触同事范围不能为空", groups = {DealGroup.class})
 	private String workmateRange;
 	/**
-	 * 后续安排
+	 * 后续安排，0：自我隔离，1：预约核酸检测，2：等待核酸结果
 	 */
 	@NotBlank(message = "后续安排不能为空", groups = {DealGroup.class})
-	private String arrangement;
+	@Min(value = 0, message = "非法参数：后续安排", groups = {DealGroup.class})
+	@Max(value = 2, message = "非法参数：后续安排", groups = {DealGroup.class})
+	private Integer arrangement;
 	/**
 	 * 填报时间
 	 */

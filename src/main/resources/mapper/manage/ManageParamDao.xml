@@ -14,7 +14,7 @@
     <resultMap type="io.renren.modules.manage.entity.ManageParamGroupEntity" id="manageParamGroupMap">
         <result property="groupId" column="group_id"/>
         <result property="groupName" column="group_name"/>
-        <collection property="data" ofType="io.renren.modules.manage.entity.ManageParamEntity" select="getDataList"
+        <collection property="children" ofType="io.renren.modules.manage.entity.ManageParamEntity" select="getDataList"
                     column="{groupId=group_id, name=name}">
             <result property="paramId" column="param_id"/>
             <result property="groupId" column="group_id"/>
@@ -28,7 +28,7 @@
         (select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
         manage_param_group mpg right join manage_param mp on mpg.group_id = mp.group_id
         union select mp.param_id, param_name, param_value, remark, mpg.group_id, group_name from
-        manage_param_group mpg left join manage_param mp on mpg.group_id = mp.group_id) as data
+        manage_param_group mpg left join manage_param mp on mpg.group_id = mp.group_id) as children
         <where>
             <if test="name != null and name != ''">
                 group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')

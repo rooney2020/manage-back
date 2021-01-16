@@ -1,9 +1,11 @@
 package io.renren.modules.manage.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DealGroup;
@@ -31,7 +33,7 @@ import io.renren.common.utils.R;
  * @date 2021-01-11 14:49:55
  */
 @RestController
-@RequestMapping("manage/manageform")
+@RequestMapping("/manage-form")
 public class ManageFormController extends AbstractController {
     @Autowired
     private ManageFormService manageFormService;
@@ -69,8 +71,28 @@ public class ManageFormController extends AbstractController {
         if (manageForm.getIsVisit() == 1) {
             ValidatorUtils.validateEntity(manageForm, DealGroup.class);
         }
+        if (!isReport()) {
+            return R.error("今日已填报");
+        }
         manageFormService.save(manageForm);
         return R.ok();
+    }
+
+    /**
+     * 今日是否已经填报过
+     */
+    public boolean isReport() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String format = sdf.format(date);
+        ManageFormEntity formEntity = manageFormService.getOne(new QueryWrapper<ManageFormEntity>().lambda()
+                .eq(ManageFormEntity::getEtlTime, format)
+                .eq(ManageFormEntity::getUserId, getUserId())
+                .last("limit 1"));
+        if (formEntity != null) {
+            return false;
+        }
+        return true;
     }
 
     /**

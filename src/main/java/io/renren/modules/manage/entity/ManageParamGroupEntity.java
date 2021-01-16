@@ -40,5 +40,5 @@ public class ManageParamGroupEntity implements Serializable {
 	private String groupName;
 
 	@TableField(exist = false)
-	private List<ManageParamEntity> data;
+	private List<ManageParamEntity> children;
 }
