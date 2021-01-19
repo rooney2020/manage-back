@@ -74,7 +74,8 @@
         manage_param_group mpg left join manage_param mp on mpg.group_id = mp.group_id) as data
         <where>
             <if test="name != null and name != ''">
-                group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')
+                (group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%'))
+                and group_name != 'PROV_CODE' and group_name != 'CITY_CODE' and group_name != 'AREA_CODE'
             </if>
         </where>
         ) as data
