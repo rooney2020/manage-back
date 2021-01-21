@@ -33,6 +33,9 @@
     <select id="getList" resultType="io.renren.modules.manage.entity.ManageLeaveEntity">
         select ml.* from manage_leave ml left join sys_user su on ml.user_id = su.user_id
         where su.super_id = #{dealId}
+        <if test="status != null and status != ''">
+            and ml.status = #{status}
+        </if>
         order by ml.leave_id desc
         <if test="page != null and limit != null">
             limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
@@ -41,6 +44,9 @@
     <select id="getListSize" resultType="int">
         select count(*) from manage_leave ml left join sys_user su on ml.user_id = su.user_id
         where su.super_id = #{dealId}
+        <if test="status != null and status != ''">
+            and ml.status = #{status}
+        </if>
     </select>
 
 </mapper>

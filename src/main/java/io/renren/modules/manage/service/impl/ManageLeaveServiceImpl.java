@@ -41,7 +41,6 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
 
     @Override
     public PageUtils getList(Map<String, Object> params) {
-        Long dealId = (Long) params.get("dealId");
         Integer currPage = 1;
         Integer pageSize = 10;
         if (params.containsKey("page") && params.containsKey("limit")) {

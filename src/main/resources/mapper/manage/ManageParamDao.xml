@@ -33,6 +33,7 @@
             <if test="name != null and name != ''">
                 group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%')
             </if>
+            and group_name != 'PROV_CODE' and group_name != 'CITY_CODE' and group_name != 'AREA_CODE'
         </where>
         order by group_id desc
         <if test="page != null and limit != null">
@@ -75,8 +76,8 @@
         <where>
             <if test="name != null and name != ''">
                 (group_name like concat('%', #{name}, '%') or param_name like concat('%', #{name}, '%'))
-                and group_name != 'PROV_CODE' and group_name != 'CITY_CODE' and group_name != 'AREA_CODE'
             </if>
+            and group_name != 'PROV_CODE' and group_name != 'CITY_CODE' and group_name != 'AREA_CODE'
         </where>
         ) as data
     </select>
