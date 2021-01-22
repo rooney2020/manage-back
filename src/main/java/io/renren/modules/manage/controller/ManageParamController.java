@@ -212,7 +212,7 @@ public class ManageParamController {
      * 删除疫情地区
      */
     @RequestMapping("/visit/delete")
-    public R deleteVisit(@RequestBody Long[] paramIds) {
+    public R deleteVisit(@RequestParam Long[] paramIds) {
         Long groupId = groupDao.getIdByName(CommonConfig.VISIT_PROV);
         manageParamService.remove(new QueryWrapper<ManageParamEntity>().lambda()
                 .eq(ManageParamEntity::getGroupId, groupId)

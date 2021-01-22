@@ -1,5 +1,6 @@
 package io.renren.modules.manage.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -25,6 +26,8 @@ import javax.validation.constraints.NotNull;
 @TableName("manage_param")
 public class ManageParamEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@TableField(exist = false)
 	private Integer uuid;
 	/**
 	 * 自增主键

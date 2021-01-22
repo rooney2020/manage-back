@@ -19,16 +19,15 @@
     <select id="personal" resultType="map">
         SELECT
         <foreach collection="list" item="leave" separator=",">
-            SUM(
+            IFNULL(SUM(
             CASE
             WHEN leave_type=#{leave.paramValue,jdbcType=VARCHAR}
             THEN `total_count`
             ELSE 0
-            END) AS #{leave.paramName,jdbcType=VARCHAR}
+            END), 0) AS #{leave.paramName,jdbcType=VARCHAR}
         </foreach>
         FROM manage_leave
         where user_id = #{userId,jdbcType=BIGINT} and status = 1
-        GROUP BY leave_type
     </select>
     <select id="getList" resultType="io.renren.modules.manage.entity.ManageLeaveEntity">
         select ml.* from manage_leave ml left join sys_user su on ml.user_id = su.user_id

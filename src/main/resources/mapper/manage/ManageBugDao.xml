@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.manage.dao.ManageBugDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.manage.entity.ManageBugEntity" id="manageBugMap">
+        <result property="bugId" column="bug_id"/>
+        <result property="bugName" column="bug_name"/>
+        <result property="projectId" column="project_id"/>
+        <result property="level" column="level"/>
+        <result property="status" column="status"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createDate" column="create_date"/>
+        <result property="assigneeId" column="assignee_id"/>
+        <result property="resolveMethod" column="resolve_method"/>
+        <result property="bugType" column="bug_type"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="priority" column="priority"/>
+        <result property="relatedTaskId" column="related_task_id"/>
+        <result property="reproSteps" column="repro_steps"/>
+    </resultMap>
+
+
+</mapper>
