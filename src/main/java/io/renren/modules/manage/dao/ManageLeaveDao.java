@@ -1,6 +1,5 @@
 package io.renren.modules.manage.dao;
 
-import io.renren.common.utils.PageUtils;
 import io.renren.modules.manage.entity.ManageLeaveEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.manage.entity.ManageParamEntity;

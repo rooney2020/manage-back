@@ -20,5 +20,7 @@ public interface ManageLeaveService extends IService<ManageLeaveEntity> {
     PageUtils getList(Map<String, Object> params);
 
     List<Map<String, Object>> personal(Long userId);
+
+    PageUtils history(Map<String, Object> params, Long userId);
 }
 

@@ -66,7 +66,7 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
         Map<String, Object> map = new HashMap<>(2);
         for (ManageParamEntity param : params) {
             map = new HashMap<>(2);
-            map.put("key", param.getParamName());
+            map.put("key", param.getRemark());
             if (null != personal) {
                 map.put("value", Integer.parseInt(param.getParamValue()) - Integer.parseInt(String.valueOf(personal.getOrDefault(param.getParamName(), 0))));
             } else {
@@ -78,4 +78,14 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
         return result;
     }
 
+    @Override
+    public PageUtils history(Map<String, Object> params, Long userId) {
+        IPage<ManageLeaveEntity> page = this.page(
+                new Query<ManageLeaveEntity>().getPage(params),
+                new QueryWrapper<ManageLeaveEntity>().lambda()
+                .eq(ManageLeaveEntity::getUserId, userId)
+        );
+
+        return new PageUtils(page);
+    }
 }

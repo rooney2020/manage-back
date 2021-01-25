@@ -7,7 +7,6 @@ import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DealGroup;
 import io.renren.common.validator.group.UpdateGroup;
-import io.renren.modules.manage.service.ManageParamService;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,4 +129,12 @@ public class ManageLeaveController extends AbstractController {
         return R.ok().put("data", personal);
     }
 
+    /**
+     * 请假记录
+     */
+    @GetMapping("/history")
+    public R history(@RequestParam Map<String, Object> params){
+        PageUtils page = manageLeaveService.history(params, getUserId());
+        return R.ok().put("page", page);
+    }
 }
