@@ -1,5 +1,9 @@
 package io.renren.modules.manage.utils;
 
+import io.renren.modules.manage.entity.ManageMessageEntity;
+
+import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,5 +26,15 @@ public class CommonUtil {
         int a = uuid.hashCode();
         // hashcode 的绝对值 因为uuid的hashcode可能为负数
         return Math.abs(a);
+    }
+
+    public static ManageMessageEntity msg(Long from, Long to, String content) {
+        ManageMessageEntity entity = new ManageMessageEntity();
+        entity.setMsFrom(from);
+        entity.setMsTo(to);
+        entity.setMsContent(content);
+        entity.setCreateTime(new Date());
+        entity.setIsRead(0);
+        return entity;
     }
 }

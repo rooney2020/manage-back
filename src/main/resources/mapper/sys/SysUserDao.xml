@@ -32,5 +32,8 @@
 			</if>
 		</where>
 	</select>
+	<select id="getUserById" resultType="io.renren.modules.sys.entity.SysUserEntity">
+		select * from sys_user where user_id = #{userId}
+	</select>
 
 </mapper>
