@@ -1,5 +1,7 @@
 package io.renren.modules.manage.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.renren.modules.manage.entity.ManageMessageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
@@ -33,6 +35,11 @@ public class ManagePunchServiceImpl extends ServiceImpl<ManagePunchDao, ManagePu
     @Override
     public ManagePunchEntity getStatus(Long userId, Integer type) {
         return dao.getStatus(userId, type);
+    }
+
+    @Override
+    public IPage<Map> selectUserPage(Page<Map> ipage, Long userId, String date) {
+        return dao.selectUserPage(ipage, userId, date);
     }
 
 }

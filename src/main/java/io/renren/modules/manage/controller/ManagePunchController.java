@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +70,22 @@ public class ManagePunchController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:managepunch:list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = managePunchService.queryPage(params);
+        Integer current = null;
+        if (params.get("page") != null && !"".equals(params.get("page"))) {
+            current = Integer.parseInt((String) params.get("page"));
+        }
+        Integer limit = null;
+        if (params.get("limit") != null && !"".equals(params.get("limit"))) {
+            limit = Integer.parseInt((String) params.get("limit"));
+        }
+        String date = null;
+        if (params.get("date") != null && !"".equals(params.get("date"))) {
+            date = (String) params.get("date");
+        }
+
+        Page<Map> ipage = new Page<>(current, limit);
+        PageUtils page = new PageUtils(managePunchService.selectUserPage(ipage, getUserId(), date));
 
         return R.ok().put("page", page);
     }

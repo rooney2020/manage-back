@@ -25,6 +25,25 @@
         </choose>
         order by create_time desc limit 1
     </select>
+    <select id="selectUserPage" resultType="map">
+        select su.chinese_name as userName,
+               m1.create_time  as upTime,
+               m1.punch_type   as upType,
+               m1.position     as upPosition,
+               m2.create_time  as downTime,
+               m2.punch_type   as downType,
+               m2.position     as downPosition
+        from manage_punch m1
+                 left join manage_punch m2 on m1.user_id = m2.user_id and (m1.punch_type = 0 or m1.punch_type = 2) and
+                                              (m2.punch_type = 1 or m2.punch_type = 3) and
+                                              DATE_FORMAT(m1.create_time, '%Y-%m-%d') =
+                                              DATE_FORMAT(m2.create_time, '%Y-%m-%d')
+                 left join sys_user su on m1.user_id = su.user_id
+        where (su.user_id = #{userId,jdbcType=BIGINT} or
+               su.super_id in (select user_id from sys_user where super_id = #{userId,jdbcType=BIGINT}))
+          and DATE_FORMAT(m1.create_time, '%Y-%m-%d') = #{date,jdbcType=VARCHAR}
+        and (m1.punch_type = 0 or m1.punch_type = 2)
+    </select>
 
 
 </mapper>
