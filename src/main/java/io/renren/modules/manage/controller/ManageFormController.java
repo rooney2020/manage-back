@@ -43,6 +43,7 @@ public class ManageFormController extends AbstractController {
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
+
         PageUtils page = manageFormService.queryPage(params);
         return R.ok().put("page", page);
     }

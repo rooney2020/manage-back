@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ManagePunchService extends IService<ManagePunchEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    ManagePunchEntity getStatus(Long userId, Integer type);
 }
 

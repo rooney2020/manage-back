@@ -1,21 +1,21 @@
 package io.renren.modules.manage.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManagePunchEntity;
 import io.renren.modules.manage.service.ManagePunchService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
-
 
 
 /**
@@ -26,17 +26,50 @@ import io.renren.common.utils.R;
  * @date 2021-01-11 14:49:54
  */
 @RestController
-@RequestMapping("manage/managepunch")
-public class ManagePunchController {
+@RequestMapping("/manage-punch")
+public class ManagePunchController extends AbstractController {
     @Autowired
     private ManagePunchService managePunchService;
+
+    @GetMapping("/status")
+    public R status() {
+        ManagePunchEntity up = managePunchService.getStatus(getUserId(), 0);
+        ManagePunchEntity down = managePunchService.getStatus(getUserId(), 1);
+        return R.ok().put("up", up).put("down", down);
+    }
+
+    @PostMapping("/punch")
+    public R punch(@RequestBody ManagePunchEntity entity) {
+        ManagePunchEntity up = managePunchService.getStatus(getUserId(), 0);
+        ManagePunchEntity down = managePunchService.getStatus(getUserId(), 1);
+        entity.setUserId(getUserId());
+        entity.setCreateTime(new Date());
+        if (up == null) {
+            ValidatorUtils.validateEntity(entity, AddGroup.class);
+            entity.setPunchType(entity.getPunchType() == 0 ? 2 : 0);
+            managePunchService.save(entity);
+        } else {
+            if (down == null) {
+                ValidatorUtils.validateEntity(entity, AddGroup.class);
+                entity.setPunchType(entity.getPunchType() == 0 ? 3 : 1);
+                managePunchService.save(entity);
+            } else {
+                entity.setPunchId(down.getPunchId());
+                ValidatorUtils.validateEntity(entity, UpdateGroup.class);
+                entity.setPunchType(entity.getPunchType() == 0 ? 3 : 1);
+                managePunchService.updateById(entity);
+            }
+        }
+
+        return R.ok();
+    }
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     @RequiresPermissions("manage:managepunch:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = managePunchService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -48,8 +81,8 @@ public class ManagePunchController {
      */
     @RequestMapping("/info/{punchId}")
     @RequiresPermissions("manage:managepunch:info")
-    public R info(@PathVariable("punchId") Long punchId){
-		ManagePunchEntity managePunch = managePunchService.getById(punchId);
+    public R info(@PathVariable("punchId") Long punchId) {
+        ManagePunchEntity managePunch = managePunchService.getById(punchId);
 
         return R.ok().put("managePunch", managePunch);
     }
@@ -59,8 +92,8 @@ public class ManagePunchController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("manage:managepunch:save")
-    public R save(@RequestBody ManagePunchEntity managePunch){
-		managePunchService.save(managePunch);
+    public R save(@RequestBody ManagePunchEntity managePunch) {
+        managePunchService.save(managePunch);
 
         return R.ok();
     }
@@ -70,8 +103,8 @@ public class ManagePunchController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("manage:managepunch:update")
-    public R update(@RequestBody ManagePunchEntity managePunch){
-		managePunchService.updateById(managePunch);
+    public R update(@RequestBody ManagePunchEntity managePunch) {
+        managePunchService.updateById(managePunch);
 
         return R.ok();
     }
@@ -81,8 +114,8 @@ public class ManagePunchController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("manage:managepunch:delete")
-    public R delete(@RequestBody Long[] punchIds){
-		managePunchService.removeByIds(Arrays.asList(punchIds));
+    public R delete(@RequestBody Long[] punchIds) {
+        managePunchService.removeByIds(Arrays.asList(punchIds));
 
         return R.ok();
     }

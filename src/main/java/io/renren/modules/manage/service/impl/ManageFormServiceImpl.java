@@ -25,9 +25,14 @@ public class ManageFormServiceImpl extends ServiceImpl<ManageFormDao, ManageForm
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        Integer isVisit = null;
+        if (params.get("isVisit") != null && !"".equals(params.get("isVisit"))) {
+            isVisit = Integer.parseInt((String) params.get("isVisit"));
+        }
         IPage<ManageFormEntity> page = this.page(
                 new Query<ManageFormEntity>().getPage(params),
-                new QueryWrapper<ManageFormEntity>()
+                new QueryWrapper<ManageFormEntity>().lambda()
+                .eq(isVisit != null, ManageFormEntity::getIsVisit, isVisit)
         );
 
         return new PageUtils(page);

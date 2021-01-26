@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.manage.dao.ManagePunchDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManagePunchEntity" id="managePunchMap">
         <result property="punchId" column="punch_id"/>
         <result property="userId" column="user_id"/>
@@ -11,6 +11,20 @@
         <result property="punchType" column="punch_type"/>
         <result property="position" column="position"/>
     </resultMap>
+    <select id="getStatus" resultMap="managePunchMap">
+        select * from manage_punch
+        where user_id = #{userId,jdbcType=BIGINT}
+        and date_format(create_time, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+        <choose>
+            <when test="type != null and type == 0">
+                and (punch_type = 0 or punch_type = 2)
+            </when>
+            <otherwise>
+                and (punch_type = 1 or punch_type = 3)
+            </otherwise>
+        </choose>
+        order by create_time desc limit 1
+    </select>
 
 
 </mapper>

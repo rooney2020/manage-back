@@ -1,5 +1,6 @@
 package io.renren.modules.manage.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +17,9 @@ import io.renren.modules.manage.service.ManagePunchService;
 @Service("managePunchService")
 public class ManagePunchServiceImpl extends ServiceImpl<ManagePunchDao, ManagePunchEntity> implements ManagePunchService {
 
+    @Autowired
+    private ManagePunchDao dao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<ManagePunchEntity> page = this.page(
@@ -24,6 +28,11 @@ public class ManagePunchServiceImpl extends ServiceImpl<ManagePunchDao, ManagePu
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public ManagePunchEntity getStatus(Long userId, Integer type) {
+        return dao.getStatus(userId, type);
     }
 
 }
