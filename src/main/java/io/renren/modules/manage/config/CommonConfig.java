@@ -16,6 +16,10 @@ public class CommonConfig {
     public static final String UPLOAD_PATH = "/home/projects/upload";
     public static final String RESOURCE_PREFIX = "/profile";
 
+    public static final String PUNCH_CODE = "PUNCH_CODE";
+    public static final String PUNCH_LOCATION = "PUNCH_LOCATION";
+    public static final String PUNCH_LONGITUDE = "PUNCH_LONGITUDE";
+    public static final String PUNCH_LATITUDE = "PUNCH_LATITUDE";
     public static final String PROV_CODE = "PROV_CODE";
     public static final String CITY_CODE = "CITY_CODE";
     public static final String AREA_CODE = "AREA_CODE";

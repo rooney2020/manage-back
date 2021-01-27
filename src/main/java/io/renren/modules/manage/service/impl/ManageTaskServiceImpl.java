@@ -17,10 +17,11 @@ import io.renren.modules.manage.service.ManageTaskService;
 public class ManageTaskServiceImpl extends ServiceImpl<ManageTaskDao, ManageTaskEntity> implements ManageTaskService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
+    public PageUtils queryPage(Map<String, Object> params, Long projectId) {
         IPage<ManageTaskEntity> page = this.page(
                 new Query<ManageTaskEntity>().getPage(params),
-                new QueryWrapper<ManageTaskEntity>()
+                new QueryWrapper<ManageTaskEntity>().lambda()
+                .eq(projectId != null, ManageTaskEntity::getProjectId, projectId)
         );
 
         return new PageUtils(page);

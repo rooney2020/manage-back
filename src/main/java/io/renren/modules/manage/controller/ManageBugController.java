@@ -35,9 +35,14 @@ public class ManageBugController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("generator:managebug:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = manageBugService.queryPage(params);
+        Long projectId = null;
+        if (params.get("projectId") != null && !"".equals(params.get("projectId"))) {
+            projectId = Long.parseLong((String) params.get("projectId"));
+        } else {
+            return R.error("项目id不能为空");
+        }
+        PageUtils page = manageBugService.queryPage(params, projectId);
 
         return R.ok().put("page", page);
     }

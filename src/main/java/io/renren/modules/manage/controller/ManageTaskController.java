@@ -26,7 +26,7 @@ import io.renren.common.utils.R;
  * @date 2021-01-21 17:03:51
  */
 @RestController
-@RequestMapping("generator/managetask")
+@RequestMapping("/manage-task")
 public class ManageTaskController {
     @Autowired
     private ManageTaskService manageTaskService;
@@ -35,9 +35,14 @@ public class ManageTaskController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("generator:managetask:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = manageTaskService.queryPage(params);
+        Long projectId = null;
+        if (params.get("projectId") != null && !"".equals(params.get("projectId"))) {
+            projectId = Long.parseLong((String) params.get("projectId"));
+        } else {
+            return R.error("项目id不能为空");
+        }
+        PageUtils page = manageTaskService.queryPage(params, projectId);
 
         return R.ok().put("page", page);
     }

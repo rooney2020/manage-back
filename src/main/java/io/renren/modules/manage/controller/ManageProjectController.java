@@ -3,6 +3,9 @@ package io.renren.modules.manage.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.renren.modules.manage.entity.ManageMessageEntity;
+import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +29,8 @@ import io.renren.common.utils.R;
  * @date 2021-01-21 17:03:51
  */
 @RestController
-@RequestMapping("generator/manageproject")
-public class ManageProjectController {
+@RequestMapping("/manage-project")
+public class ManageProjectController extends AbstractController {
     @Autowired
     private ManageProjectService manageProjectService;
 
@@ -35,9 +38,17 @@ public class ManageProjectController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("generator:manageproject:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = manageProjectService.queryPage(params);
+        Integer current = null;
+        if (params.get("page") != null && !"".equals(params.get("page"))) {
+            current = Integer.parseInt((String) params.get("page"));
+        }
+        Integer limit = null;
+        if (params.get("limit") != null && !"".equals(params.get("limit"))) {
+            limit = Integer.parseInt((String) params.get("limit"));
+        }
+        Page<ManageProjectEntity> ipage = new Page<>(current, limit);
+        PageUtils page = new PageUtils(manageProjectService.selectUserPage(ipage, getUserId()));
 
         return R.ok().put("page", page);
     }
@@ -69,7 +80,6 @@ public class ManageProjectController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("generator:manageproject:update")
     public R update(@RequestBody ManageProjectEntity manageProject){
 		manageProjectService.updateById(manageProject);
 

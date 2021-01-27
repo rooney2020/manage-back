@@ -23,4 +23,6 @@ public interface ManageLeaveDao extends BaseMapper<ManageLeaveEntity> {
 
     List<ManageLeaveEntity> getList(Map<String, Object> params);
     int getListSize(Map<String, Object> params);
+
+    List<Map> records(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("userId") Long userId);
 }

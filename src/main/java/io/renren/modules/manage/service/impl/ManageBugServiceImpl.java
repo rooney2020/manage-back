@@ -1,5 +1,6 @@
 package io.renren.modules.manage.service.impl;
 
+import io.renren.modules.manage.entity.ManageTaskEntity;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -17,10 +18,11 @@ import io.renren.modules.manage.service.ManageBugService;
 public class ManageBugServiceImpl extends ServiceImpl<ManageBugDao, ManageBugEntity> implements ManageBugService {
 
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
+    public PageUtils queryPage(Map<String, Object> params, Long projectId) {
         IPage<ManageBugEntity> page = this.page(
                 new Query<ManageBugEntity>().getPage(params),
-                new QueryWrapper<ManageBugEntity>()
+                new QueryWrapper<ManageBugEntity>().lambda()
+                        .eq(projectId != null, ManageBugEntity::getProjectId, projectId)
         );
 
         return new PageUtils(page);

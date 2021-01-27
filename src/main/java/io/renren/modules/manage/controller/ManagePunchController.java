@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.config.CommonConfig;
 import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -37,6 +38,12 @@ public class ManagePunchController extends AbstractController {
     public R status() {
         ManagePunchEntity up = managePunchService.getStatus(getUserId(), 0);
         ManagePunchEntity down = managePunchService.getStatus(getUserId(), 1);
+        if (up == null) {
+            up = new ManagePunchEntity();
+        }
+        if (down == null) {
+            down = new ManagePunchEntity();
+        }
         return R.ok().put("up", up).put("down", down);
     }
 

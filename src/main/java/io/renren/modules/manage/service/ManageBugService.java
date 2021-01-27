@@ -15,6 +15,6 @@ import java.util.Map;
  */
 public interface ManageBugService extends IService<ManageBugEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params, Long projectId);
 }
 

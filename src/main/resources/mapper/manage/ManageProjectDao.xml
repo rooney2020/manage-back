@@ -17,6 +17,9 @@
         <result property="updateTime" column="update_time"/>
         <result property="status" column="status"/>
     </resultMap>
-
-
+    <select id="selectUserPage" resultMap="manageProjectMap">
+        select *
+        from manage_project
+        order by project_id desc
+    </select>
 </mapper>

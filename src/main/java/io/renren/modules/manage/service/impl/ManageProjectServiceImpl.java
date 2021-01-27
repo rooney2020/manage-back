@@ -1,5 +1,7 @@
 package io.renren.modules.manage.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +18,9 @@ import io.renren.modules.manage.service.ManageProjectService;
 @Service("manageProjectService")
 public class ManageProjectServiceImpl extends ServiceImpl<ManageProjectDao, ManageProjectEntity> implements ManageProjectService {
 
+    @Autowired
+    private ManageProjectDao dao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<ManageProjectEntity> page = this.page(
@@ -24,6 +29,11 @@ public class ManageProjectServiceImpl extends ServiceImpl<ManageProjectDao, Mana
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public IPage<ManageProjectEntity> selectUserPage(Page<ManageProjectEntity> ipage, Long userId) {
+        return dao.selectUserPage(ipage, userId);
     }
 
 }

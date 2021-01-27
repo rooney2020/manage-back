@@ -17,6 +17,7 @@ import io.renren.modules.manage.entity.CodeEntity;
 import io.renren.modules.manage.entity.ManageParamGroupEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManageParamEntity;
@@ -218,6 +219,40 @@ public class ManageParamController {
                 .eq(ManageParamEntity::getGroupId, groupId)
                 .in(ManageParamEntity::getParamId, paramIds));
         return R.ok();
+    }
+
+    /**
+     * 打卡位置修改
+     */
+    @PostMapping("/location/save")
+    @Transactional(rollbackFor = Exception.class)
+    public R location(@RequestParam("position") String position, @RequestParam("tudes") String[] tudes) {
+        Long positionId = groupDao.getParamIdByName(CommonConfig.PUNCH_LOCATION);
+        Long latitudeId = groupDao.getParamIdByName(CommonConfig.PUNCH_LATITUDE);
+        Long longitudeId = groupDao.getParamIdByName(CommonConfig.PUNCH_LONGITUDE);
+        ManageParamEntity paramEntity = new ManageParamEntity();
+        paramEntity.setParamId(positionId);
+        paramEntity.setParamValue(position);
+        manageParamService.updateById(paramEntity);
+        paramEntity.setParamId(latitudeId);
+        paramEntity.setParamValue(tudes[0]);
+        manageParamService.updateById(paramEntity);
+        paramEntity.setParamId(longitudeId);
+        paramEntity.setParamValue(tudes[1]);
+        manageParamService.updateById(paramEntity);
+        return R.ok();
+    }
+
+    @GetMapping("/location/get")
+    public R getLocation() {
+        Long positionId = groupDao.getParamIdByName(CommonConfig.PUNCH_LOCATION);
+        Long latitudeId = groupDao.getParamIdByName(CommonConfig.PUNCH_LATITUDE);
+        Long longitudeId = groupDao.getParamIdByName(CommonConfig.PUNCH_LONGITUDE);
+        String position = manageParamService.getById(positionId).getParamValue();
+        String latitude = manageParamService.getById(latitudeId).getParamValue();
+        String longitude = manageParamService.getById(longitudeId).getParamValue();
+        String[] tudes = new String[]{latitude,longitude};
+        return R.ok().put("position", position).put("tudes", tudes);
     }
 
 }

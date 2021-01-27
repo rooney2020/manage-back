@@ -15,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ManageParamGroupDao extends BaseMapper<ManageParamGroupEntity> {
 
     Long getIdByName(String groupName);
+    Long getParamIdByName(String paramName);
 }

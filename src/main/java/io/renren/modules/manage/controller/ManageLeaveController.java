@@ -145,4 +145,10 @@ public class ManageLeaveController extends AbstractController {
         PageUtils page = manageLeaveService.history(params, getUserId());
         return R.ok().put("page", page);
     }
+
+    @GetMapping("/records")
+    public R records(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate) {
+        List<Map> list = manageLeaveService.records(beginDate, endDate, getUserId());
+        return R.ok().put("data", list);
+    }
 }

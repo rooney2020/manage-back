@@ -16,6 +16,23 @@
         <result property="leaveType" column="leave_type"/>
         <result property="totalCount" column="total_count"/>
     </resultMap>
+
+    <resultMap type="io.renren.modules.sys.entity.SysUserEntity" id="manageRecordsMap">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="chineseName" column="chinese_name"/>
+        <collection property="records" ofType="io.renren.modules.manage.entity.ManageLeaveEntity" select="getRecords"
+                    column="{userId=user_id, beginDate=beginDate, endDate=endDate}">
+            <result property="dealId" column="deal_id"/>
+            <result property="beginTime" column="begin_time"/>
+            <result property="endTime" column="end_time"/>
+            <result property="etlTime" column="etl_time"/>
+            <result property="createTime" column="create_time"/>
+            <result property="status" column="status"/>
+            <result property="leaveType" column="leave_type"/>
+            <result property="totalCount" column="total_count"/>
+        </collection>
+    </resultMap>
     <select id="personal" resultType="map">
         SELECT
         <foreach collection="list" item="leave" separator=",">
@@ -50,5 +67,33 @@
         <if test="status != null and status != ''">
             and ml.status = #{status}
         </if>
+    </select>
+    <select id="records" resultMap="manageRecordsMap">
+        select user_id,
+               username,
+               chinese_name,
+               IFNULL('${beginDate}', '') as beginDate,
+               IFNULL('${endDate}', '')   as endDate
+        from sys_user
+    </select>
+    <select id="getRecords" resultType="io.renren.modules.manage.entity.ManageLeaveEntity">
+        select user_id, deal_id, begin_time, end_time, etl_time, create_time, status, leave_type, total_count from manage_leave
+        <where>
+            user_id = #{userId} and
+            ((date_format(begin_time, '%Y-%m-%d') &gt;= date_format(#{beginDate}, '%Y-%m-%d') and date_format(begin_time,
+            '%Y-%m-%d') &lt;= date_format(#{endDate}, '%Y-%m-%d')
+            and date_format(end_time, '%Y-%m-%d') &gt;= date_format(#{beginDate}, '%Y-%m-%d') and
+            date_format(end_time, '%Y-%m-%d') &gt;= date_format(#{endDate}, '%Y-%m-%d'))
+            or
+            (date_format(begin_time, '%Y-%m-%d') &lt;= date_format(#{beginDate}, '%Y-%m-%d') and date_format(begin_time,
+            '%Y-%m-%d') &lt;= date_format(#{endDate}, '%Y-%m-%d')
+            and date_format(end_time, '%Y-%m-%d') &gt;= date_format(#{beginDate}, '%Y-%m-%d') and
+            date_format(end_time, '%Y-%m-%d') &gt;= date_format(#{endDate}, '%Y-%m-%d'))
+            or
+            (date_format(begin_time, '%Y-%m-%d') &lt;= date_format(#{beginDate}, '%Y-%m-%d') and date_format(begin_time,
+            '%Y-%m-%d') &lt;= date_format(#{endDate}, '%Y-%m-%d')
+            and date_format(end_time, '%Y-%m-%d') &gt;= date_format(#{beginDate}, '%Y-%m-%d') and
+            date_format(end_time, '%Y-%m-%d') &lt;= date_format(#{endDate}, '%Y-%m-%d')))
+        </where>
     </select>
 </mapper>

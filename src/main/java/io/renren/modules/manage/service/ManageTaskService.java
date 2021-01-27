@@ -15,6 +15,6 @@ import java.util.Map;
  */
 public interface ManageTaskService extends IService<ManageTaskEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params, Long projectId);
 }
 

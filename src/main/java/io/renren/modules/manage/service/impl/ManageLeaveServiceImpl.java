@@ -88,4 +88,9 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
 
         return new PageUtils(page);
     }
+
+    @Override
+    public List<Map> records(String beginDate, String endDate, Long userId) {
+        return dao.records(beginDate, endDate, userId);
+    }
 }

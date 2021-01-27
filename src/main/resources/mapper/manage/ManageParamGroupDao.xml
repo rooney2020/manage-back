@@ -13,6 +13,11 @@
         from manage_param_group
         where group_name = #{groupName,jdbcType=VARCHAR}
     </select>
+    <select id="getParamIdByName" resultType="java.lang.Long">
+        select param_id
+        from manage_param
+        where param_name = #{paramName,jdbcType=VARCHAR}
+    </select>
 
 
 </mapper>
