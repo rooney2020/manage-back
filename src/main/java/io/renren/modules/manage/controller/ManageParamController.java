@@ -39,7 +39,6 @@ public class ManageParamController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:manageparam:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageParamService.getList(params);
 
@@ -51,7 +50,6 @@ public class ManageParamController {
      * 信息
      */
     @RequestMapping("/info/{paramId}")
-    @RequiresPermissions("manage:manageparam:info")
     public R info(@PathVariable("paramId") Long paramId) {
         ManageParamEntity manageParam = manageParamService.getById(paramId);
 
@@ -62,7 +60,6 @@ public class ManageParamController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:manageparam:save")
     public R save(@RequestBody ManageParamEntity manageParam) {
         ValidatorUtils.validateEntity(manageParam, AddGroup.class);
         manageParamService.save(manageParam);
@@ -74,7 +71,6 @@ public class ManageParamController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:manageparam:update")
     public R update(@RequestBody ManageParamEntity manageParam) {
         ValidatorUtils.validateEntity(manageParam, UpdateGroup.class);
         manageParamService.updateById(manageParam);
@@ -86,7 +82,6 @@ public class ManageParamController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:manageparam:delete")
     public R delete(@RequestBody Long[] paramIds) {
         manageParamService.removeByIds(Arrays.asList(paramIds));
 

@@ -39,7 +39,6 @@ public class ManageFeedbackController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:managefeedback:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageFeedbackService.queryPage(params);
 
@@ -51,7 +50,6 @@ public class ManageFeedbackController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{feedId}")
-    @RequiresPermissions("manage:managefeedback:info")
     public R info(@PathVariable("feedId") Long feedId) {
         ManageFeedbackEntity manageFeedback = manageFeedbackService.getById(feedId);
 
@@ -62,7 +60,6 @@ public class ManageFeedbackController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:managefeedback:save")
     public R save(@RequestBody ManageFeedbackEntity manageFeedback) {
         manageFeedback.setUserId(getUserId());
         manageFeedback.setStatus(0);
@@ -79,7 +76,6 @@ public class ManageFeedbackController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:managefeedback:update")
     public R update(@RequestBody ManageFeedbackEntity manageFeedback) {
         manageFeedback.setResolveUserId(getUserId());
         manageFeedback.setEtlTime(new Date());
@@ -95,7 +91,6 @@ public class ManageFeedbackController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:managefeedback:delete")
     public R delete(@RequestBody Long[] feedIds) {
         manageFeedbackService.removeByIds(Arrays.asList(feedIds));
 

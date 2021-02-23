@@ -102,7 +102,6 @@ public class ManagePunchController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{punchId}")
-    @RequiresPermissions("manage:managepunch:info")
     public R info(@PathVariable("punchId") Long punchId) {
         ManagePunchEntity managePunch = managePunchService.getById(punchId);
 
@@ -113,7 +112,6 @@ public class ManagePunchController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:managepunch:save")
     public R save(@RequestBody ManagePunchEntity managePunch) {
         managePunchService.save(managePunch);
 
@@ -124,7 +122,6 @@ public class ManagePunchController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:managepunch:update")
     public R update(@RequestBody ManagePunchEntity managePunch) {
         managePunchService.updateById(managePunch);
 
@@ -135,7 +132,6 @@ public class ManagePunchController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:managepunch:delete")
     public R delete(@RequestBody Long[] punchIds) {
         managePunchService.removeByIds(Arrays.asList(punchIds));
 

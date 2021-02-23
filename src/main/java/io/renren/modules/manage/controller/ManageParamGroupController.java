@@ -37,7 +37,6 @@ public class ManageParamGroupController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:manageparamgroup:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageParamGroupService.queryPage(params);
 
@@ -49,7 +48,6 @@ public class ManageParamGroupController {
      * 信息
      */
     @RequestMapping("/info/{groupId}")
-    @RequiresPermissions("manage:manageparamgroup:info")
     public R info(@PathVariable("groupId") Long groupId) {
         ManageParamGroupEntity manageParamGroup = manageParamGroupService.getById(groupId);
 
@@ -60,7 +58,6 @@ public class ManageParamGroupController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:manageparamgroup:save")
     public R save(@RequestBody ManageParamGroupEntity manageParamGroup) {
         ValidatorUtils.validateEntity(manageParamGroup, AddGroup.class);
         manageParamGroupService.save(manageParamGroup);
@@ -72,7 +69,6 @@ public class ManageParamGroupController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:manageparamgroup:update")
     public R update(@RequestBody ManageParamGroupEntity manageParamGroup) {
         ValidatorUtils.validateEntity(manageParamGroup, UpdateGroup.class);
         manageParamGroupService.updateById(manageParamGroup);
@@ -84,7 +80,6 @@ public class ManageParamGroupController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:manageparamgroup:delete")
     @Transactional(rollbackFor = Exception.class)
     public R delete(@RequestBody Long[] groupIds) {
         manageParamService.removeByGroupIds(groupIds);

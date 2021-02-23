@@ -162,7 +162,6 @@ public class SysUserController extends AbstractController {
 	 * 获取当前用户所有下级员工
 	 */
 	@GetMapping("/sub")
-	@RequiresPermissions("emp:list")
 	public R sub(@RequestParam Map<String, Object> params) {
 		params.put("superId", getUserId());
 		PageUtils page = sysUserService.getSubs(params);

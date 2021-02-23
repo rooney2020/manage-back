@@ -53,7 +53,6 @@ public class ManageFormController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{formId}")
-    @RequiresPermissions("manage:manageform:info")
     public R info(@PathVariable("formId") Long formId) {
         ManageFormEntity manageForm = manageFormService.getById(formId);
 
@@ -64,7 +63,6 @@ public class ManageFormController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:manageform:save")
     public R save(@RequestBody ManageFormEntity manageForm) {
         manageForm.setEtlTime(new Date());
         manageForm.setUserId(getUserId());
@@ -105,7 +103,6 @@ public class ManageFormController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:manageform:update")
     public R update(@RequestBody ManageFormEntity manageForm) {
         manageFormService.updateById(manageForm);
 
@@ -116,7 +113,6 @@ public class ManageFormController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:manageform:delete")
     public R delete(@RequestBody Long[] formIds) {
         manageFormService.removeByIds(Arrays.asList(formIds));
 

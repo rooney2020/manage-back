@@ -94,7 +94,6 @@ public class ManageMessageController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{msId}")
-    @RequiresPermissions("generator:managemessage:info")
     public R info(@PathVariable("msId") Long msId) {
         ManageMessageEntity manageMessage = manageMessageService.getById(msId);
 
@@ -105,7 +104,6 @@ public class ManageMessageController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("generator:managemessage:save")
     public R save(@RequestBody ManageMessageEntity manageMessage) {
         manageMessageService.save(manageMessage);
 
@@ -116,7 +114,6 @@ public class ManageMessageController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("generator:managemessage:update")
     public R update(@RequestBody ManageMessageEntity manageMessage) {
         manageMessageService.updateById(manageMessage);
 
@@ -127,7 +124,6 @@ public class ManageMessageController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("generator:managemessage:delete")
     public R delete(@RequestBody Long[] msIds) {
         manageMessageService.removeByIds(Arrays.asList(msIds));
 

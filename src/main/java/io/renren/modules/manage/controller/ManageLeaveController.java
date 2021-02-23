@@ -37,7 +37,6 @@ public class ManageLeaveController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("manage:manageleave:list")
     public R list(@RequestParam Map<String, Object> params) {
         if (getUserId() != Constant.SUPER_ADMIN) {
             params.put("dealId", getUserId());
@@ -52,7 +51,6 @@ public class ManageLeaveController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{leaveId}")
-    @RequiresPermissions("manage:manageleave:info")
     public R info(@PathVariable("leaveId") Long leaveId) {
         ManageLeaveEntity manageLeave = manageLeaveService.getById(leaveId);
 
@@ -63,7 +61,6 @@ public class ManageLeaveController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-//    @RequiresPermissions("manage:manageleave:save")
     public R save(@RequestBody ManageLeaveEntity manageLeave) {
         manageLeave.setUserId(getUserId());
         manageLeave.setCreateTime(new Date());
@@ -82,7 +79,6 @@ public class ManageLeaveController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("manage:manageleave:update")
     public R update(@RequestBody ManageLeaveEntity manageLeave) {
         ValidatorUtils.validateEntity(manageLeave, UpdateGroup.class);
         manageLeaveService.updateById(manageLeave);
@@ -94,7 +90,6 @@ public class ManageLeaveController extends AbstractController {
      * 处理
      */
     @RequestMapping("/deal")
-    @RequiresPermissions("manage:manageleave:deal")
     public R deal(@RequestBody ManageLeaveEntity manageLeave) {
         manageLeave.setDealId(getUserId());
         manageLeave.setEtlTime(new Date());
@@ -118,7 +113,6 @@ public class ManageLeaveController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("manage:manageleave:delete")
     public R delete(@RequestBody Long[] leaveIds) {
         manageLeaveService.removeByIds(Arrays.asList(leaveIds));
 
