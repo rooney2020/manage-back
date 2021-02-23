@@ -12,7 +12,6 @@
         <result property="assigneeId" column="assignee_id"/>
         <result property="completeUserId" column="complete_user_id"/>
         <result property="estimate" column="estimate"/>
-        <result property="usedTime" column="used_time"/>
         <result property="endDate" column="end_date"/>
         <result property="relatedTaskId" column="related_task_id"/>
         <result property="beginDate" column="begin_date"/>
@@ -27,9 +26,21 @@
         <collection property="completeName" column="{userId=complete_user_id}" select="getUserName"/>
         <collection property="relatedTaskName" column="{taskId=related_task_id}" select="getTaskName"/>
         <collection property="createUserName" select="getUserName" column="{userId=create_user_id}"/>
+        <collection property="usedTime" column="{taskId=task_id}" select="getUsedTime"/>
+    </resultMap>
+    <resultMap id="manageTaskRecordMap" type="io.renren.modules.manage.entity.ManageTaskRecordEntity">
+        <id property="recordId" column="record_id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="consume" column="consume"/>
+        <result property="remain" column="remain"/>
+        <result property="remark" column="remark"/>
+        <result property="recordDate" column="record_date"/>
+        <collection property="createUserName" select="getUserName" column="{userId=create_user_id}"/>
     </resultMap>
     <select id="getRequirements" resultMap="manageTaskMap">
-        select task_id, task_name
+        select *
         from manage_task
         where task_type = 0
     </select>
@@ -64,5 +75,13 @@
         select chinese_name
         from sys_user
         where user_id = #{userId}
+    </select>
+    <select id="getUsedTime" resultType="double">
+        select IFNULL(datanum.consume, 0) from (select sum(consume) as consume
+        from manage_task_record
+        where task_id = #{taskId}) as datanum
+    </select>
+    <select id="worktime" resultMap="manageTaskRecordMap">
+        select * from manage_task_record where task_id = #{taskId}
     </select>
 </mapper>

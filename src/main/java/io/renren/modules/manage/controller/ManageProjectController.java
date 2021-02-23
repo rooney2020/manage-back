@@ -55,6 +55,10 @@ public class ManageProjectController extends AbstractController {
         return R.ok().put("data", manageProjectService.getAllProjects());
     }
 
+    @RequestMapping("/projects/num")
+    public R projectsNum() {
+        return R.ok().put("data", manageProjectService.getAllProjects().size());
+    }
 
     /**
      * 信息

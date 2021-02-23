@@ -77,7 +77,7 @@ public class ManageTaskEntity implements Serializable {
 	 * 已消耗
 	 */
 	@TableField(exist = false)
-	private Integer usedTime;
+	private Double usedTime;
 	/**
 	 * 截止日期
 	 */

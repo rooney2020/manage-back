@@ -6,6 +6,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.modules.manage.entity.ManageProjectEntity;
 import io.renren.modules.manage.entity.ManageTaskEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.manage.entity.ManageTaskRecordEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +26,6 @@ public interface ManageTaskDao extends BaseMapper<ManageTaskEntity> {
     List<ManageTaskEntity> getRequirements();
 
     IPage<ManageTaskEntity> getList(Page<ManageTaskEntity> ipage, @Param("userId") Long userId, @Param("params") Map<String, Object> params);
+
+    List<ManageTaskRecordEntity> worktime(Long taskId);
 }

@@ -2,6 +2,7 @@ package io.renren.modules.manage.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.renren.modules.manage.entity.ManageProjectEntity;
+import io.renren.modules.manage.entity.ManageTaskRecordEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,4 +45,8 @@ public class ManageTaskServiceImpl extends ServiceImpl<ManageTaskDao, ManageTask
         return dao.getList(ipage, userId, params);
     }
 
+    @Override
+    public List<ManageTaskRecordEntity> worktime(Long taskId) {
+        return dao.worktime(taskId);
+    }
 }

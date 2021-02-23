@@ -77,7 +77,7 @@ public class ManageLeaveController extends AbstractController {
             return R.error("总工时必须是4的倍数");
         }
         manageLeaveService.save(manageLeave);
-        ManageMessageEntity msg = CommonUtil.msg(getUserId(), getUser().getSuperId(), "您的员工\"" + getUser().getChineseName() + "\"提交了请假申请！");
+        ManageMessageEntity msg = CommonUtil.msg(0L, getUser().getSuperId() == null ? 1 : getUser().getSuperId(), "您的员工\"" + getUser().getChineseName() + "\"提交了请假申请！");
         manageMessageService.save(msg);
         return R.ok();
     }
@@ -113,7 +113,7 @@ public class ManageLeaveController extends AbstractController {
         manageLeaveService.updateById(manageLeave);
         String message = "您的上级\"" + getUser().getChineseName() + "\"" +
                 (entity.getStatus() == 1 ? "批准" : "拒绝") + "了您的请假申请" + entity.getLeaveId() + "！";
-        ManageMessageEntity msg = CommonUtil.msg(getUserId(), entity.getUserId(), message);
+        ManageMessageEntity msg = CommonUtil.msg(0L, entity.getUserId(), message);
         manageMessageService.save(msg);
         return R.ok();
     }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.manage.entity.ManageProjectEntity;
 import io.renren.modules.manage.entity.ManageTaskEntity;
+import io.renren.modules.manage.entity.ManageTaskRecordEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -24,5 +25,7 @@ public interface ManageTaskService extends IService<ManageTaskEntity> {
     List<ManageTaskEntity> getRequirements();
 
     IPage<ManageTaskEntity> getList(Page<ManageTaskEntity> ipage, Long userId, Map<String, Object> params);
+
+    List<ManageTaskRecordEntity> worktime(Long taskId);
 }
 

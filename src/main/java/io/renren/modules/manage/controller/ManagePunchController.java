@@ -47,6 +47,13 @@ public class ManagePunchController extends AbstractController {
         return R.ok().put("up", up).put("down", down);
     }
 
+    @GetMapping("/ispunched")
+    public R isPunched() {
+        ManagePunchEntity up = managePunchService.getStatus(getUserId(), 0);
+        ManagePunchEntity down = managePunchService.getStatus(getUserId(), 1);
+        return R.ok().put("up", up == null ? 0 : 1).put("down", down == null ? 0 : 1);
+    }
+
     @PostMapping("/punch")
     public R punch(@RequestBody ManagePunchEntity entity) {
         ManagePunchEntity up = managePunchService.getStatus(getUserId(), 0);

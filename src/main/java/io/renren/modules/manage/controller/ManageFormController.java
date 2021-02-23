@@ -107,6 +107,11 @@ public class ManageFormController extends AbstractController {
         return true;
     }
 
+    @GetMapping("/isreport")
+    public R isReported() {
+        return R.ok().put("isReported", !isReport());
+    }
+
     /**
      * 修改
      */
