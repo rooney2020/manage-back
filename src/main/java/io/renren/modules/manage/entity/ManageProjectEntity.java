@@ -70,14 +70,14 @@ public class ManageProjectEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	@NotNull(message = "创建人不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotNull(message = "创建人不能为空", groups = {AddGroup.class})
 	private Long createUserId;
 	@TableField(exist = false)
 	private String createUserName;
 	/**
 	 * 创建时间
 	 */
-	@NotNull(message = "创建时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotNull(message = "创建时间不能为空", groups = {AddGroup.class})
 	private Date createTime;
 	/**
 	 * 更新时间

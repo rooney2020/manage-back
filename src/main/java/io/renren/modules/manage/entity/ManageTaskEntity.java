@@ -13,6 +13,8 @@ import io.renren.common.validator.group.DealGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -49,6 +51,8 @@ public class ManageTaskEntity implements Serializable {
 	/**
 	 * 状态0：未开始，1：进行中，2：已完成，3：已关闭
 	 */
+	@Min(0)
+	@Max(3)
 	@NotNull(message = "状态不能为空", groups = {AddGroup.class, UpdateGroup.class, DealGroup.class})
 	private Integer status;
 	/**
@@ -89,7 +93,7 @@ public class ManageTaskEntity implements Serializable {
 	/**
 	 * 创建人id
 	 */
-	@NotNull(message = "创建人不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotNull(message = "创建人不能为空", groups = {AddGroup.class})
 	private Long createUserId;
 	@TableField(exist = false)
 	private String createUserName;
@@ -102,7 +106,7 @@ public class ManageTaskEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
-	@NotNull(message = "创建时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotNull(message = "创建时间不能为空", groups = {AddGroup.class})
 	private Date createTime;
 	/**
 	 * 实际开始时间

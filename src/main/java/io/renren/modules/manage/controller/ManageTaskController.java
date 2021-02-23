@@ -5,6 +5,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.manage.entity.ManageTaskEntity;
 import io.renren.modules.manage.service.ManageTaskService;
@@ -50,11 +51,22 @@ public class ManageTaskController extends AbstractController {
         return R.ok().put("page", page);
     }
 
-    @GetMapping("requirements")
+    /**
+     * 所有需求任务
+     */
+    @GetMapping("/requirements")
     public R requirements() {
         return R.ok().put("data", manageTaskService.getRequirements());
     }
 
+    @GetMapping("/status")
+    public R status(@RequestParam("taskId") Long taskId, @RequestParam("status") int status) {
+        ManageTaskEntity task = new ManageTaskEntity();
+        task.setTaskId(taskId);
+        task.setStatus(status);
+        ValidatorUtils.validateEntity(task, DealGroup.class);
+        return R.ok();
+    }
 
     /**
      * 信息

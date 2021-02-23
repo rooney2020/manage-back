@@ -41,16 +41,19 @@
                 and manage_project.status = #{params.status}
             </if>
             <if test="params.projectName != null and params.projectName != ''">
-                and manage_project.project_name = #{params.projectName}
+                and manage_project.project_name like concat('%', #{params.projectName}, '%')
             </if>
             <if test="params.manageId != null and params.manageId != ''">
                 and manage_project.manager_id = #{params.manageId}
             </if>
-            <if test="params.beginDate != null and params.beginDate != ''">
-                and manage_project.begin_date = #{params.beginDate}
-            </if>
-            <if test="params.endDate != null and params.endDate != ''">
-                and manage_project.end_date = #{params.endDate}
+            <if test="params.beginDate != null and params.beginDate != '' and params.endDate != null and params.endDate != ''">
+                and
+                (
+                    (manage_project.begin_date &gt; #{params.beginDate} AND manage_project.begin_date &lt; #{params.endDate}) OR
+                    (manage_project.begin_date &lt; #{params.beginDate} AND manage_project.end_date &gt; #{params.endDate}) OR
+                    (manage_project.end_date &gt; #{params.beginDate} AND manage_project.end_date &lt; #{params.endDate}) OR
+                    (manage_project.begin_date = #{params.beginDate} AND manage_project.end_date = #{params.endDate})
+                )
             </if>
         </where>
         order by project_id desc
