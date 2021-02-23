@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.manage.dao.ManageLeaveDao">
-
-    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageLeaveEntity" id="manageLeaveMap">
         <result property="leaveId" column="leave_id"/>
         <result property="userId" column="user_id"/>
@@ -75,10 +73,12 @@
                IFNULL('${beginDate}', '') as beginDate,
                IFNULL('${endDate}', '')   as endDate
         from sys_user
-        where super_id = #{userId,jdbcType=BIGINT} or user_id = #{userId,jdbcType=BIGINT}
+        where super_id = #{userId,jdbcType=BIGINT}
+           or user_id = #{userId,jdbcType=BIGINT}
     </select>
     <select id="getRecords" resultType="io.renren.modules.manage.entity.ManageLeaveEntity">
-        select user_id, deal_id, begin_time, end_time, etl_time, create_time, status, leave_type, total_count from manage_leave
+        select user_id, deal_id, begin_time, end_time, etl_time, create_time, status, leave_type, total_count from
+        manage_leave
         <where>
             user_id = #{userId} and
             ((date_format(begin_time, '%Y-%m-%d') &lt;= date_format(#{beginDate}, '%Y-%m-%d')

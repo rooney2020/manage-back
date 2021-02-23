@@ -3,14 +3,10 @@ package io.renren.modules.manage.utils;
 import io.renren.modules.manage.entity.ManageMessageEntity;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 /**
- * 请修改注释
- *
- * @author zhaoliyuan
- * @date 2021.01.13
+ * 通用工具类
  */
 public class CommonUtil {
     public static boolean isEmpty(String str) {

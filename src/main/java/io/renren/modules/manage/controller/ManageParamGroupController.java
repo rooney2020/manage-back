@@ -22,13 +22,8 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
 
-
 /**
- * 参数组表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 参数组
  */
 @RestController
 @RequestMapping("/manage-paramgroup")
@@ -43,7 +38,7 @@ public class ManageParamGroupController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("manage:manageparamgroup:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageParamGroupService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -55,8 +50,8 @@ public class ManageParamGroupController {
      */
     @RequestMapping("/info/{groupId}")
     @RequiresPermissions("manage:manageparamgroup:info")
-    public R info(@PathVariable("groupId") Long groupId){
-		ManageParamGroupEntity manageParamGroup = manageParamGroupService.getById(groupId);
+    public R info(@PathVariable("groupId") Long groupId) {
+        ManageParamGroupEntity manageParamGroup = manageParamGroupService.getById(groupId);
 
         return R.ok().put("manageParamGroup", manageParamGroup);
     }
@@ -66,9 +61,9 @@ public class ManageParamGroupController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("manage:manageparamgroup:save")
-    public R save(@RequestBody ManageParamGroupEntity manageParamGroup){
+    public R save(@RequestBody ManageParamGroupEntity manageParamGroup) {
         ValidatorUtils.validateEntity(manageParamGroup, AddGroup.class);
-		manageParamGroupService.save(manageParamGroup);
+        manageParamGroupService.save(manageParamGroup);
 
         return R.ok();
     }
@@ -78,9 +73,9 @@ public class ManageParamGroupController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("manage:manageparamgroup:update")
-    public R update(@RequestBody ManageParamGroupEntity manageParamGroup){
+    public R update(@RequestBody ManageParamGroupEntity manageParamGroup) {
         ValidatorUtils.validateEntity(manageParamGroup, UpdateGroup.class);
-		manageParamGroupService.updateById(manageParamGroup);
+        manageParamGroupService.updateById(manageParamGroup);
 
         return R.ok();
     }
@@ -91,9 +86,9 @@ public class ManageParamGroupController {
     @RequestMapping("/delete")
     @RequiresPermissions("manage:manageparamgroup:delete")
     @Transactional(rollbackFor = Exception.class)
-    public R delete(@RequestBody Long[] groupIds){
+    public R delete(@RequestBody Long[] groupIds) {
         manageParamService.removeByGroupIds(groupIds);
-		manageParamGroupService.removeByIds(Arrays.asList(groupIds));
+        manageParamGroupService.removeByIds(Arrays.asList(groupIds));
 
         return R.ok();
     }

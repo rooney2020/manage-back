@@ -8,10 +8,6 @@ import java.util.Map;
 
 /**
  * 参数表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
  */
 public interface ManageParamService extends IService<ManageParamEntity> {
 

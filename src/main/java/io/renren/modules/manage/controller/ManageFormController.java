@@ -1,38 +1,27 @@
 package io.renren.modules.manage.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DealGroup;
+import io.renren.modules.manage.entity.ManageFormEntity;
+import io.renren.modules.manage.service.ManageFormService;
+import io.renren.modules.sys.controller.AbstractController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.renren.common.validator.ValidatorUtils;
-import io.renren.common.validator.group.AddGroup;
-import io.renren.common.validator.group.DealGroup;
-import io.renren.modules.manage.dao.ManageParamDao;
-import io.renren.modules.manage.dao.ManageParamGroupDao;
-import io.renren.modules.manage.entity.CodeEntity;
-import io.renren.modules.manage.entity.ManageMessageEntity;
-import io.renren.modules.manage.entity.ManageParamEntity;
-import io.renren.modules.sys.controller.AbstractController;
-import org.apache.ibatis.annotations.Param;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import io.renren.modules.manage.entity.ManageFormEntity;
-import io.renren.modules.manage.service.ManageFormService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-
 
 /**
- * 自主填报-动态表单
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:55
+ * 自主填报
  */
 @RestController
 @RequestMapping("/manage-form")

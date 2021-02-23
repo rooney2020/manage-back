@@ -10,16 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 参数表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 参数
  */
 @Mapper
 public interface ManageParamDao extends BaseMapper<ManageParamEntity> {
     @SuppressWarnings("all")
     List<ManageParamGroupEntity> getList(Map<String, Object> params);
+
     List<ManageParamEntity> getParamList(@Param("groupName") String groupName);
 
     int removeByGroupIds(@Param("groupIds") Long[] groupIds);

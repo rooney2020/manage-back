@@ -4,17 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
-import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.manage.entity.ManagePunchEntity;
 
 import java.util.Map;
 
 /**
  * 打卡签到表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
  */
 public interface ManagePunchService extends IService<ManagePunchEntity> {
 

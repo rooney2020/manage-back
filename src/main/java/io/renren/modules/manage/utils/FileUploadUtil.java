@@ -15,9 +15,7 @@ import java.util.Date;
 /**
  * 文件上传工具类
  */
-public class FileUploadUtil
-{
-
+public class FileUploadUtil {
 
     /**
      * 默认大小 50M
@@ -36,13 +34,11 @@ public class FileUploadUtil
 
     private static int counter = 0;
 
-    public static void setDefaultBaseDir(String defaultBaseDir)
-    {
+    public static void setDefaultBaseDir(String defaultBaseDir) {
         FileUploadUtil.defaultBaseDir = defaultBaseDir;
     }
 
-    public static String getDefaultBaseDir()
-    {
+    public static String getDefaultBaseDir() {
         return defaultBaseDir;
     }
 
@@ -53,14 +49,10 @@ public class FileUploadUtil
      * @return 文件名称
      * @throws Exception
      */
-    public static final String upload(MultipartFile file) throws IOException
-    {
-        try
-        {
+    public static final String upload(MultipartFile file) throws IOException {
+        try {
             return upload(getDefaultBaseDir(), file, MimeTypeUtil.DEFAULT_ALLOWED_EXTENSION);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage(), e);
         }
     }
@@ -69,18 +61,14 @@ public class FileUploadUtil
      * 根据文件路径上传
      *
      * @param baseDir 相对应用的基目录
-     * @param file 上传的文件
+     * @param file    上传的文件
      * @return 文件名称
      * @throws IOException
      */
-    public static final String upload(String baseDir, MultipartFile file) throws IOException
-    {
-        try
-        {
+    public static final String upload(String baseDir, MultipartFile file) throws IOException {
+        try {
             return upload(baseDir, file, MimeTypeUtil.DEFAULT_ALLOWED_EXTENSION);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage(), e);
         }
     }
@@ -89,15 +77,14 @@ public class FileUploadUtil
      * 文件上传
      *
      * @param baseDir 相对应用的基目录
-     * @param file 上传的文件
+     * @param file    上传的文件
      * @return 返回上传成功的文件名
      * @throws FileSizeLimitExceededException 如果超出最大大小
-     * @throws IOException 比如读写文件出错时
+     * @throws IOException                    比如读写文件出错时
      */
     public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension) throws FileSizeLimitExceededException, IOException {
         int fileNamelength = file.getOriginalFilename().length();
-        if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH)
-        {
+        if (fileNamelength > FileUploadUtil.DEFAULT_FILE_NAME_LENGTH) {
             throw new RRException("默认的文件名最大长度" + FileUploadUtil.DEFAULT_FILE_NAME_LENGTH);
         }
 
@@ -114,8 +101,7 @@ public class FileUploadUtil
     /**
      * 日期路径 即年/月/日 如2018/08/08
      */
-    public static final String datePath()
-    {
+    public static final String datePath() {
         Date now = new Date();
         return DateFormatUtils.format(now, "yyyy/MM/dd");
     }
@@ -123,31 +109,26 @@ public class FileUploadUtil
     /**
      * 编码文件名
      */
-    public static final String extractFilename(MultipartFile file)
-    {
+    public static final String extractFilename(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
         fileName = datePath() + "/" + encodingFilename(fileName) + "." + extension;
         return fileName;
     }
 
-    private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException
-    {
+    private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
         File desc = new File(uploadDir + File.separator + fileName);
 
-        if (!desc.getParentFile().exists())
-        {
+        if (!desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();
         }
-        if (!desc.exists())
-        {
+        if (!desc.exists()) {
             desc.createNewFile();
         }
         return desc;
     }
 
-    private static final String getPathFileName(String uploadDir, String fileName)
-    {
+    private static final String getPathFileName(String uploadDir, String fileName) {
         int dirLastIndex = CommonConfig.UPLOAD_PATH.length() + 1;
         String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
         String pathFileName = CommonConfig.RESOURCE_PREFIX + "/" + fileName;
@@ -155,12 +136,10 @@ public class FileUploadUtil
     }
 
 
-
     /**
      * 编码文件名
      */
-    private static final String encodingFilename(String fileName)
-    {
+    private static final String encodingFilename(String fileName) {
         fileName = fileName.replace("_", " ");
         fileName = MD5Util.hash(fileName + System.nanoTime() + counter++);
         return fileName;
@@ -173,32 +152,22 @@ public class FileUploadUtil
      * @return
      * @throws FileSizeLimitExceededException 如果超出最大大小
      */
-    public static final void assertAllowed(MultipartFile file, String[] allowedExtension)
-    {
+    public static final void assertAllowed(MultipartFile file, String[] allowedExtension) {
         long size = file.getSize();
-        if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE)
-        {
+        if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE) {
             throw new RRException("超出最大大小:" + DEFAULT_MAX_SIZE / 1024 / 1024);
         }
 
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
-        if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension))
-        {
-            if (allowedExtension == MimeTypeUtil.IMAGE_EXTENSION)
-            {
+        if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
+            if (allowedExtension == MimeTypeUtil.IMAGE_EXTENSION) {
                 throw new RRException(allowedExtension + extension + fileName);
-            }
-            else if (allowedExtension == MimeTypeUtil.FLASH_EXTENSION)
-            {
+            } else if (allowedExtension == MimeTypeUtil.FLASH_EXTENSION) {
                 throw new RRException(allowedExtension + extension + fileName);
-            }
-            else if (allowedExtension == MimeTypeUtil.MEDIA_EXTENSION)
-            {
+            } else if (allowedExtension == MimeTypeUtil.MEDIA_EXTENSION) {
                 throw new RRException(allowedExtension + extension + fileName);
-            }
-            else
-            {
+            } else {
                 throw new RRException(allowedExtension + extension + fileName);
             }
         }
@@ -212,12 +181,9 @@ public class FileUploadUtil
      * @param allowedExtension
      * @return
      */
-    public static final boolean isAllowedExtension(String extension, String[] allowedExtension)
-    {
-        for (String str : allowedExtension)
-        {
-            if (str.equalsIgnoreCase(extension))
-            {
+    public static final boolean isAllowedExtension(String extension, String[] allowedExtension) {
+        for (String str : allowedExtension) {
+            if (str.equalsIgnoreCase(extension)) {
                 return true;
             }
         }
@@ -230,11 +196,9 @@ public class FileUploadUtil
      * @param file 表单文件
      * @return 后缀名
      */
-    public static final String getExtension(MultipartFile file)
-    {
+    public static final String getExtension(MultipartFile file) {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (StringUtils.isEmpty(extension))
-        {
+        if (StringUtils.isEmpty(extension)) {
             extension = MimeTypeUtil.getExtension(file.getContentType());
         }
         return extension;

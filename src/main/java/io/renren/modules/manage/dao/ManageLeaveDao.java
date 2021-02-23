@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 请假信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 请假信息
  */
 @Mapper
 public interface ManageLeaveDao extends BaseMapper<ManageLeaveEntity> {

@@ -24,14 +24,8 @@ import io.renren.modules.manage.service.ManageFeedbackService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
-
-
 /**
- * 反馈信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:55
+ * 反馈
  */
 @RestController
 @RequestMapping("/manage-feedback")
@@ -46,7 +40,7 @@ public class ManageFeedbackController extends AbstractController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("manage:managefeedback:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = manageFeedbackService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -58,8 +52,8 @@ public class ManageFeedbackController extends AbstractController {
      */
     @RequestMapping("/info/{feedId}")
     @RequiresPermissions("manage:managefeedback:info")
-    public R info(@PathVariable("feedId") Long feedId){
-		ManageFeedbackEntity manageFeedback = manageFeedbackService.getById(feedId);
+    public R info(@PathVariable("feedId") Long feedId) {
+        ManageFeedbackEntity manageFeedback = manageFeedbackService.getById(feedId);
 
         return R.ok().put("manageFeedback", manageFeedback);
     }
@@ -69,13 +63,13 @@ public class ManageFeedbackController extends AbstractController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("manage:managefeedback:save")
-    public R save(@RequestBody ManageFeedbackEntity manageFeedback){
+    public R save(@RequestBody ManageFeedbackEntity manageFeedback) {
         manageFeedback.setUserId(getUserId());
         manageFeedback.setStatus(0);
         manageFeedback.setCreateTime(new Date());
         manageFeedback.setMobile(getUser().getMobile());
         ValidatorUtils.validateEntity(manageFeedback, AddGroup.class);
-		manageFeedbackService.save(manageFeedback);
+        manageFeedbackService.save(manageFeedback);
         ManageMessageEntity msg = CommonUtil.msg(0L, 1L, "您的员工\"" + getUser().getChineseName() + "\"提交了反馈信息！");
         manageMessageService.save(msg);
         return R.ok();
@@ -86,12 +80,12 @@ public class ManageFeedbackController extends AbstractController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("manage:managefeedback:update")
-    public R update(@RequestBody ManageFeedbackEntity manageFeedback){
+    public R update(@RequestBody ManageFeedbackEntity manageFeedback) {
         manageFeedback.setResolveUserId(getUserId());
         manageFeedback.setEtlTime(new Date());
         manageFeedback.setStatus(1);
         ValidatorUtils.validateEntity(manageFeedback, UpdateGroup.class);
-		manageFeedbackService.updateById(manageFeedback);
+        manageFeedbackService.updateById(manageFeedback);
         ManageMessageEntity msg = CommonUtil.msg(0L, manageFeedback.getUserId(), "管理员处理了您的反馈信息！");
         manageMessageService.save(msg);
         return R.ok();
@@ -102,8 +96,8 @@ public class ManageFeedbackController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("manage:managefeedback:delete")
-    public R delete(@RequestBody Long[] feedIds){
-		manageFeedbackService.removeByIds(Arrays.asList(feedIds));
+    public R delete(@RequestBody Long[] feedIds) {
+        manageFeedbackService.removeByIds(Arrays.asList(feedIds));
 
         return R.ok();
     }

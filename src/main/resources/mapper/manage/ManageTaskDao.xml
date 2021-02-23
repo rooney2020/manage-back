@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.manage.dao.ManageTaskDao">
-
-    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageTaskEntity" id="manageTaskMap">
         <result property="taskId" column="task_id"/>
         <result property="projectId" column="project_id"/>
@@ -77,11 +75,14 @@
         where user_id = #{userId}
     </select>
     <select id="getUsedTime" resultType="double">
-        select IFNULL(datanum.consume, 0) from (select sum(consume) as consume
-        from manage_task_record
-        where task_id = #{taskId}) as datanum
+        select IFNULL(datanum.consume, 0)
+        from (select sum(consume) as consume
+              from manage_task_record
+              where task_id = #{taskId}) as datanum
     </select>
     <select id="worktime" resultMap="manageTaskRecordMap">
-        select * from manage_task_record where task_id = #{taskId}
+        select *
+        from manage_task_record
+        where task_id = #{taskId}
     </select>
 </mapper>

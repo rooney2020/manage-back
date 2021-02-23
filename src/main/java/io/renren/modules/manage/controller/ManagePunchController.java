@@ -1,32 +1,25 @@
 package io.renren.modules.manage.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
-import io.renren.modules.manage.config.CommonConfig;
-import io.renren.modules.manage.entity.ManageMessageEntity;
+import io.renren.modules.manage.entity.ManagePunchEntity;
+import io.renren.modules.manage.service.ManagePunchService;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import io.renren.modules.manage.entity.ManagePunchEntity;
-import io.renren.modules.manage.service.ManagePunchService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 
 /**
- * 打卡签到表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 打卡签到
  */
 @RestController
 @RequestMapping("/manage-punch")

@@ -23,11 +23,7 @@ import io.renren.common.utils.R;
 
 
 /**
- * 请假信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 请假信息
  */
 @RestController
 @RequestMapping("/manage-leave")

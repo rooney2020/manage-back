@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.manage.dao.ManageProjectDao">
-
-    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageProjectEntity" id="manageProjectMap">
         <result property="projectId" column="project_id"/>
         <result property="projectName" column="project_name"/>
@@ -49,16 +47,19 @@
             <if test="params.beginDate != null and params.beginDate != '' and params.endDate != null and params.endDate != ''">
                 and
                 (
-                    (manage_project.begin_date &gt; #{params.beginDate} AND manage_project.begin_date &lt; #{params.endDate}) OR
-                    (manage_project.begin_date &lt; #{params.beginDate} AND manage_project.end_date &gt; #{params.endDate}) OR
-                    (manage_project.end_date &gt; #{params.beginDate} AND manage_project.end_date &lt; #{params.endDate}) OR
-                    (manage_project.begin_date = #{params.beginDate} AND manage_project.end_date = #{params.endDate})
+                (manage_project.begin_date &gt; #{params.beginDate} AND manage_project.begin_date &lt;
+                #{params.endDate}) OR
+                (manage_project.begin_date &lt; #{params.beginDate} AND manage_project.end_date &gt; #{params.endDate})
+                OR
+                (manage_project.end_date &gt; #{params.beginDate} AND manage_project.end_date &lt; #{params.endDate}) OR
+                (manage_project.begin_date = #{params.beginDate} AND manage_project.end_date = #{params.endDate})
                 )
             </if>
         </where>
         order by project_id desc
     </select>
     <select id="getAllProjects" resultMap="manageProjectMap">
-        select project_id, project_name from manage_project
+        select project_id, project_name
+        from manage_project
     </select>
 </mapper>

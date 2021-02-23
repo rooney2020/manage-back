@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.manage.dao.ManageFeedbackDao">
-
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageFeedbackEntity" id="manageFeedbackMap">
         <result property="feedId" column="feed_id"/>
         <result property="userId" column="user_id"/>
@@ -14,6 +12,4 @@
         <result property="resolveUserId" column="resolve_user_id"/>
         <result property="etlTime" column="etl_time"/>
     </resultMap>
-
-
 </mapper>

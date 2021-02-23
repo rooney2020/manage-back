@@ -10,10 +10,6 @@ import java.util.Map;
 
 /**
  * 消息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-25 11:52:59
  */
 public interface ManageMessageService extends IService<ManageMessageEntity> {
 

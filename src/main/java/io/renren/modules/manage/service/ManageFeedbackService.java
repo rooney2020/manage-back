@@ -8,10 +8,6 @@ import java.util.Map;
 
 /**
  * 反馈信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:55
  */
 public interface ManageFeedbackService extends IService<ManageFeedbackEntity> {
 

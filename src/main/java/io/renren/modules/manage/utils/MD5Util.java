@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.security.MessageDigest;
 
 /**
- * 请修改注释
- *
- * @author zhaoliyuan
- * @date 2021.01.07
+ * MD5加密工具类
  */
 public class MD5Util {
     private static final Logger log = LoggerFactory.getLogger(MD5Util.class);

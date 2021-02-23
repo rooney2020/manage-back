@@ -8,11 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 消息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-25 11:52:59
+ * 消息
  */
 @Mapper
 public interface ManageMessageDao extends BaseMapper<ManageMessageEntity> {

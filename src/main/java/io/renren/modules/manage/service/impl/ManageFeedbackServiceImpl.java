@@ -1,7 +1,9 @@
 package io.renren.modules.manage.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,9 +26,9 @@ public class ManageFeedbackServiceImpl extends ServiceImpl<ManageFeedbackDao, Ma
         IPage<ManageFeedbackEntity> page = this.page(
                 new Query<ManageFeedbackEntity>().getPage(params),
                 new QueryWrapper<ManageFeedbackEntity>().lambda()
-                .eq(status != null && !"".equals(status), ManageFeedbackEntity::getStatus, status)
-                .eq(userId != null && !"".equals(userId), ManageFeedbackEntity::getUserId, userId)
-                .eq(resolveUserId != null && !"".equals(resolveUserId), ManageFeedbackEntity::getResolveUserId, resolveUserId)
+                        .eq(status != null && !"".equals(status), ManageFeedbackEntity::getStatus, status)
+                        .eq(userId != null && !"".equals(userId), ManageFeedbackEntity::getUserId, userId)
+                        .eq(resolveUserId != null && !"".equals(resolveUserId), ManageFeedbackEntity::getResolveUserId, resolveUserId)
         );
 
         return new PageUtils(page);

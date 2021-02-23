@@ -16,14 +16,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-
-
 /**
- * 项目信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-21 17:03:51
+ * 项目信息
  */
 @RestController
 @RequestMapping("/manage-project")
@@ -35,7 +29,7 @@ public class ManageProjectController extends AbstractController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         Integer current = null;
         if (params.get("page") != null && !"".equals(params.get("page"))) {
             current = Integer.parseInt((String) params.get("page"));
@@ -64,8 +58,8 @@ public class ManageProjectController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{projectId}")
-    public R info(@PathVariable("projectId") Long projectId){
-		ManageProjectEntity manageProject = manageProjectService.getById(projectId);
+    public R info(@PathVariable("projectId") Long projectId) {
+        ManageProjectEntity manageProject = manageProjectService.getById(projectId);
 
         return R.ok().put("manageProject", manageProject);
     }
@@ -74,12 +68,12 @@ public class ManageProjectController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody ManageProjectEntity manageProject){
+    public R save(@RequestBody ManageProjectEntity manageProject) {
         manageProject.setCreateUserId(getUserId());
         manageProject.setCreateTime(new Date());
         manageProject.setUpdateTime(new Date());
         ValidatorUtils.validateEntity(manageProject, AddGroup.class);
-		manageProjectService.save(manageProject);
+        manageProjectService.save(manageProject);
 
         return R.ok();
     }
@@ -88,10 +82,10 @@ public class ManageProjectController extends AbstractController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody ManageProjectEntity manageProject){
+    public R update(@RequestBody ManageProjectEntity manageProject) {
         manageProject.setUpdateTime(new Date());
         ValidatorUtils.validateEntity(manageProject, UpdateGroup.class);
-		manageProjectService.updateById(manageProject);
+        manageProjectService.updateById(manageProject);
 
         return R.ok();
     }
@@ -100,8 +94,8 @@ public class ManageProjectController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] projectIds){
-		manageProjectService.removeByIds(Arrays.asList(projectIds));
+    public R delete(@RequestBody Long[] projectIds) {
+        manageProjectService.removeByIds(Arrays.asList(projectIds));
 
         return R.ok();
     }

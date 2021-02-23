@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 项目信息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-21 17:03:51
+ * 项目信息
  */
 @Mapper
 public interface ManageProjectDao extends BaseMapper<ManageProjectEntity> {

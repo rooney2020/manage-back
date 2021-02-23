@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 新闻
+ */
 @RestController
 @RequestMapping("/manage-news")
 public class ManageNewsController extends AbstractController {

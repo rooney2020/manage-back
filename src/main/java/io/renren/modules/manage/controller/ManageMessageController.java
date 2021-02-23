@@ -19,11 +19,7 @@ import io.renren.common.utils.R;
 
 
 /**
- * 消息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-25 11:52:59
+ * 消息
  */
 @RestController
 @RequestMapping("/manage-message")
@@ -44,6 +40,7 @@ public class ManageMessageController extends AbstractController {
 
         return R.ok();
     }
+
     /**
      * 消息删除
      */

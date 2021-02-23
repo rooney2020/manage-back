@@ -1,11 +1,8 @@
 package io.renren.modules.manage.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DealGroup;
@@ -14,24 +11,19 @@ import io.renren.modules.manage.config.CommonConfig;
 import io.renren.modules.manage.dao.ManageParamDao;
 import io.renren.modules.manage.dao.ManageParamGroupDao;
 import io.renren.modules.manage.entity.CodeEntity;
-import io.renren.modules.manage.entity.ManageParamGroupEntity;
+import io.renren.modules.manage.entity.ManageParamEntity;
+import io.renren.modules.manage.service.ManageParamService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import io.renren.modules.manage.entity.ManageParamEntity;
-import io.renren.modules.manage.service.ManageParamService;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 参数表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
  */
 @RestController
 @RequestMapping("/manage-param")
@@ -251,7 +243,7 @@ public class ManageParamController {
         String position = manageParamService.getById(positionId).getParamValue();
         String latitude = manageParamService.getById(latitudeId).getParamValue();
         String longitude = manageParamService.getById(longitudeId).getParamValue();
-        String[] tudes = new String[]{latitude,longitude};
+        String[] tudes = new String[]{latitude, longitude};
         return R.ok().put("position", position).put("tudes", tudes);
     }
 

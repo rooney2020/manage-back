@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -84,7 +85,7 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
         IPage<ManageLeaveEntity> page = this.page(
                 new Query<ManageLeaveEntity>().getPage(params),
                 new QueryWrapper<ManageLeaveEntity>().lambda()
-                .eq(ManageLeaveEntity::getUserId, userId)
+                        .eq(ManageLeaveEntity::getUserId, userId)
         );
 
         return new PageUtils(page);

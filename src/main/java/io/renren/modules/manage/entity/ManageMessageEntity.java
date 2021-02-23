@@ -12,44 +12,40 @@ import lombok.Data;
 
 /**
  * 消息表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-25 11:52:59
  */
 @Data
 @TableName("manage_message")
 public class ManageMessageEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 自增主键，消息id
-	 */
-	@TableId
-	private Long msId;
-	/**
-	 * 消息内容
-	 */
-	private String msContent;
-	/**
-	 * 发送者
-	 */
-	private Long msFrom;
-	@TableField(exist = false)
-	private SysUserEntity msFromUser;
-	/**
-	 * 接收者
-	 */
-	private Long msTo;
-	@TableField(exist = false)
-	private SysUserEntity msToUser;
-	/**
-	 * 创建时间
-	 */
-	private Date createTime;
-	/**
-	 * 是否已读0：未读，1：已读
-	 */
-	private Integer isRead;
+    /**
+     * 自增主键，消息id
+     */
+    @TableId
+    private Long msId;
+    /**
+     * 消息内容
+     */
+    private String msContent;
+    /**
+     * 发送者
+     */
+    private Long msFrom;
+    @TableField(exist = false)
+    private SysUserEntity msFromUser;
+    /**
+     * 接收者
+     */
+    private Long msTo;
+    @TableField(exist = false)
+    private SysUserEntity msToUser;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 是否已读0：未读，1：已读
+     */
+    private Integer isRead;
 
 }

@@ -10,11 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Map;
 
 /**
- * 打卡签到表
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-01-11 14:49:54
+ * 打卡签到
  */
 @Mapper
 public interface ManagePunchDao extends BaseMapper<ManagePunchEntity> {
