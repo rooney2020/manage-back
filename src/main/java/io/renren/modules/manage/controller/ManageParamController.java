@@ -13,7 +13,6 @@ import io.renren.modules.manage.dao.ManageParamGroupDao;
 import io.renren.modules.manage.entity.CodeEntity;
 import io.renren.modules.manage.entity.ManageParamEntity;
 import io.renren.modules.manage.service.ManageParamService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

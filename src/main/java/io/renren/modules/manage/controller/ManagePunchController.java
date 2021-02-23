@@ -9,7 +9,6 @@ import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.manage.entity.ManagePunchEntity;
 import io.renren.modules.manage.service.ManagePunchService;
 import io.renren.modules.sys.controller.AbstractController;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
