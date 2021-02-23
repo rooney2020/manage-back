@@ -1,5 +1,6 @@
 package io.renren.modules.manage.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +26,16 @@ public class ManageFormServiceImpl extends ServiceImpl<ManageFormDao, ManageForm
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        Integer isVisit = null;
-        if (params.get("isVisit") != null && !"".equals(params.get("isVisit"))) {
-            isVisit = Integer.parseInt((String) params.get("isVisit"));
-        }
         IPage<ManageFormEntity> page = this.page(
                 new Query<ManageFormEntity>().getPage(params),
                 new QueryWrapper<ManageFormEntity>().lambda()
-                .eq(isVisit != null, ManageFormEntity::getIsVisit, isVisit)
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public IPage<ManageFormEntity> selectUserPage(Page<ManageFormEntity> ipage, Map<String, Object> params) {
+        return dao.selectUserPage(ipage, params);
     }
 }

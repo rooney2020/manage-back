@@ -3,6 +3,8 @@ package io.renren.modules.manage.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -32,8 +34,12 @@ public class ManageProjectServiceImpl extends ServiceImpl<ManageProjectDao, Mana
     }
 
     @Override
-    public IPage<ManageProjectEntity> selectUserPage(Page<ManageProjectEntity> ipage, Long userId) {
-        return dao.selectUserPage(ipage, userId);
+    public IPage<ManageProjectEntity> selectUserPage(Page<ManageProjectEntity> ipage, Long userId, Map<String, Object> params) {
+        return dao.selectUserPage(ipage, userId, params);
+    }
+    @Override
+    public List<ManageProjectEntity> getAllProjects() {
+        return dao.getAllProjects();
     }
 
 }

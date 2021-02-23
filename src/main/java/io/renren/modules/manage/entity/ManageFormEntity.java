@@ -1,10 +1,12 @@
 package io.renren.modules.manage.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DealGroup;
@@ -37,6 +39,8 @@ public class ManageFormEntity implements Serializable {
 	 */
 	@NotNull(message = "所在省市区id不能为空", groups = {AddGroup.class, DealGroup.class})
 	private Long provId;
+	@TableField(exist = false)
+	private String provName;
 	/**
 	 * 是否到访过，0：否，1：是
 	 */
@@ -49,6 +53,8 @@ public class ManageFormEntity implements Serializable {
 	 */
 	@NotBlank(message = "到访省市区不能为空", groups = {DealGroup.class})
 	private String visitProv;
+	@TableField(exist = false)
+	private List<String> visitProvNames;
 	/**
 	 * 身体状况，0：发烧感冒，1：一切正常
 	 */
@@ -90,4 +96,6 @@ public class ManageFormEntity implements Serializable {
 	 */
 	@NotNull(message = "填报人id不能为空", groups = {AddGroup.class, DealGroup.class})
 	private Long userId;
+	@TableField(exist = false)
+	private String userName;
 }

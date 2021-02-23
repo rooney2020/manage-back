@@ -3,6 +3,7 @@ package io.renren.modules.manage.service.impl;
 import io.renren.modules.manage.dao.ManageParamDao;
 import io.renren.modules.manage.entity.ManageParamEntity;
 import io.renren.modules.manage.utils.CommonUtil;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,7 +91,7 @@ public class ManageLeaveServiceImpl extends ServiceImpl<ManageLeaveDao, ManageLe
     }
 
     @Override
-    public List<Map> records(String beginDate, String endDate, Long userId) {
+    public List<SysUserEntity> records(String beginDate, String endDate, Long userId) {
         return dao.records(beginDate, endDate, userId);
     }
 }

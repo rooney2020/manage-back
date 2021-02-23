@@ -3,6 +3,7 @@ package io.renren.modules.manage.dao;
 import io.renren.modules.manage.entity.ManageLeaveEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.renren.modules.manage.entity.ManageParamEntity;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,5 +25,5 @@ public interface ManageLeaveDao extends BaseMapper<ManageLeaveEntity> {
     List<ManageLeaveEntity> getList(Map<String, Object> params);
     int getListSize(Map<String, Object> params);
 
-    List<Map> records(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("userId") Long userId);
+    List<SysUserEntity> records(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("userId") Long userId);
 }

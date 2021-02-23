@@ -35,5 +35,8 @@
 	<select id="getUserById" resultType="io.renren.modules.sys.entity.SysUserEntity">
 		select * from sys_user where user_id = #{userId}
 	</select>
+    <select id="getAllUsers" resultType="io.renren.modules.sys.entity.SysUserEntity">
+		select user_id, username, chinese_name from sys_user
+	</select>
 
 </mapper>

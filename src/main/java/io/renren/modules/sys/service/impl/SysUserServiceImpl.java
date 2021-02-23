@@ -170,4 +170,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public List<SysUserEntity> queryAllSuper(String chineseName) {
         return sysUserDao.queryAllSuper(chineseName);
     }
+
+    /**
+     * 查询所有用户信息
+     */
+    @Override
+    public List<SysUserEntity> getAllUsers() {
+        return sysUserDao.getAllUsers();
+    }
 }

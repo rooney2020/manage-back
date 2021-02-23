@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.manage.dao.ManageTaskDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageTaskEntity" id="manageTaskMap">
         <result property="taskId" column="task_id"/>
         <result property="projectId" column="project_id"/>
@@ -20,7 +20,49 @@
         <result property="finishDate" column="finish_date"/>
         <result property="taskType" column="task_type"/>
         <result property="comment" column="comment"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createTime" column="create_time"/>
+        <collection property="projectName" column="{projectId=project_id}" select="getProjectName"/>
+        <collection property="assignName" column="{userId=assignee_id}" select="getUserName"/>
+        <collection property="completeName" column="{userId=complete_user_id}" select="getUserName"/>
+        <collection property="relatedTaskName" column="{taskId=related_task_id}" select="getTaskName"/>
+        <collection property="createUserName" select="getUserName" column="{userId=create_user_id}"/>
     </resultMap>
-
-
+    <select id="getRequirements" resultMap="manageTaskMap">
+        select task_id, task_name
+        from manage_task
+        where task_type = 0
+    </select>
+    <select id="getList" resultMap="manageTaskMap">
+        select * from manage_task
+        <where>
+            <if test="params.projectId != null and params.projectId != ''">
+                and project_id = #{params.projectId}
+            </if>
+            <if test="params.option != null and params.option == 0 and userId != null">
+                and assignee_id = #{userId}
+            </if>
+            <if test="params.option != null and params.option == 1 and userId != null">
+                and create_user_id = #{userId}
+            </if>
+            <if test="params.option != null and params.option == 2 and userId != null">
+                and complete_user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="getProjectName" resultType="string">
+        select project_name
+        from manage_project
+        where project_id = #{projectId}
+    </select>
+    <select id="getTaskName" resultType="string">
+        select task_name
+        from manage_task
+        where task_id = #{taskId}
+    </select>
+    <select id="getUserName" resultType="string">
+        select chinese_name
+        from sys_user
+        where user_id = #{userId}
+    </select>
 </mapper>

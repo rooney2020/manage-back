@@ -39,6 +39,8 @@
         <if test="isRead != null">
             and is_read = #{isRead,jdbcType=INTEGER}
         </if>
+        and is_read != 2
+        order by create_time desc
     </select>
     <select id="getUserById" resultType="io.renren.modules.sys.entity.SysUserEntity">
         <choose>

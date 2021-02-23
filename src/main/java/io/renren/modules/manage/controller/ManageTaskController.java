@@ -1,20 +1,20 @@
 package io.renren.modules.manage.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.manage.entity.ManageTaskEntity;
-import io.renren.modules.manage.service.ManageTaskService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.entity.ManageTaskEntity;
+import io.renren.modules.manage.service.ManageTaskService;
+import io.renren.modules.sys.controller.AbstractController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 
 
@@ -27,7 +27,7 @@ import io.renren.common.utils.R;
  */
 @RestController
 @RequestMapping("/manage-task")
-public class ManageTaskController {
+public class ManageTaskController extends AbstractController {
     @Autowired
     private ManageTaskService manageTaskService;
 
@@ -36,15 +36,23 @@ public class ManageTaskController {
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        Long projectId = null;
-        if (params.get("projectId") != null && !"".equals(params.get("projectId"))) {
-            projectId = Long.parseLong((String) params.get("projectId"));
-        } else {
-            return R.error("项目id不能为空");
+        Integer current = null;
+        if (params.get("page") != null && !"".equals(params.get("page"))) {
+            current = Integer.parseInt((String) params.get("page"));
         }
-        PageUtils page = manageTaskService.queryPage(params, projectId);
+        Integer limit = null;
+        if (params.get("limit") != null && !"".equals(params.get("limit"))) {
+            limit = Integer.parseInt((String) params.get("limit"));
+        }
+        Page<ManageTaskEntity> ipage = new Page<>(current, limit);
+        PageUtils page = new PageUtils(manageTaskService.getList(ipage, getUserId(), params));
 
         return R.ok().put("page", page);
+    }
+
+    @GetMapping("requirements")
+    public R requirements() {
+        return R.ok().put("data", manageTaskService.getRequirements());
     }
 
 
@@ -52,7 +60,6 @@ public class ManageTaskController {
      * 信息
      */
     @RequestMapping("/info/{taskId}")
-    @RequiresPermissions("generator:managetask:info")
     public R info(@PathVariable("taskId") Long taskId){
 		ManageTaskEntity manageTask = manageTaskService.getById(taskId);
 
@@ -63,8 +70,10 @@ public class ManageTaskController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("generator:managetask:save")
     public R save(@RequestBody ManageTaskEntity manageTask){
+        manageTask.setCreateTime(new Date());
+        manageTask.setCreateUserId(getUserId());
+        ValidatorUtils.validateEntity(manageTask, AddGroup.class);
 		manageTaskService.save(manageTask);
 
         return R.ok();
@@ -74,8 +83,8 @@ public class ManageTaskController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("generator:managetask:update")
     public R update(@RequestBody ManageTaskEntity manageTask){
+        ValidatorUtils.validateEntity(manageTask, UpdateGroup.class);
 		manageTaskService.updateById(manageTask);
 
         return R.ok();
@@ -85,7 +94,6 @@ public class ManageTaskController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("generator:managetask:delete")
     public R delete(@RequestBody Long[] taskIds){
 		manageTaskService.removeByIds(Arrays.asList(taskIds));
 

@@ -45,4 +45,5 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 	 */
 	List<SysUserEntity> queryAllSuper(String chineseName);
 
+    List<SysUserEntity> getAllUsers();
 }

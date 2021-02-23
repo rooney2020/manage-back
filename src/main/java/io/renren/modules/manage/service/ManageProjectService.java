@@ -7,6 +7,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.manage.entity.ManageProjectEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +21,8 @@ public interface ManageProjectService extends IService<ManageProjectEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    IPage<ManageProjectEntity> selectUserPage(Page<ManageProjectEntity> ipage, Long userId);
+    IPage<ManageProjectEntity> selectUserPage(Page<ManageProjectEntity> ipage, Long userId, Map<String, Object> params);
+
+    List<ManageProjectEntity> getAllProjects();
 }
 

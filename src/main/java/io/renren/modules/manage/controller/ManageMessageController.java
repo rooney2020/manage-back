@@ -5,21 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.renren.modules.sys.controller.AbstractController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.manage.service.ManageMessageService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
-
 
 
 /**
@@ -39,19 +35,28 @@ public class ManageMessageController extends AbstractController {
      * 消息已读
      */
     @RequestMapping("/read")
-    public R read(@RequestParam Long[] msIds){
+    public R read(@RequestParam Long[] msIds) {
         List<ManageMessageEntity> list = new ArrayList<>();
         for (Long msgId : msIds) {
-            list.add(getMsg(msgId));
+            list.add(getMsg(msgId, 1));
         }
         manageMessageService.updateBatchById(list);
 
         return R.ok();
     }
+    /**
+     * 消息删除
+     */
+    @RequestMapping("/remove")
+    public R remove(@RequestParam Long[] msIds) {
+        manageMessageService.removeByIds(Arrays.asList(msIds));
 
-    public ManageMessageEntity getMsg(Long id) {
+        return R.ok();
+    }
+
+    public ManageMessageEntity getMsg(Long id, int status) {
         ManageMessageEntity entity = new ManageMessageEntity();
-        entity.setIsRead(1);
+        entity.setIsRead(status);
         entity.setMsId(id);
         return entity;
     }
@@ -60,7 +65,7 @@ public class ManageMessageController extends AbstractController {
      * 列表 员工个人消息
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         Integer isRead = null;
         if (params.get("isRead") != null && !"".equals(params.get("isRead"))) {
             isRead = Integer.parseInt((String) params.get("isRead"));
@@ -80,14 +85,21 @@ public class ManageMessageController extends AbstractController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/count")
+    public R count() {
+        int count = manageMessageService.count(new QueryWrapper<ManageMessageEntity>().lambda()
+                .eq(ManageMessageEntity::getMsTo, getUserId()).eq(ManageMessageEntity::getIsRead, 0));
+        return R.ok().put("count", count);
+    }
+
 
     /**
      * 信息
      */
     @RequestMapping("/info/{msId}")
     @RequiresPermissions("generator:managemessage:info")
-    public R info(@PathVariable("msId") Long msId){
-		ManageMessageEntity manageMessage = manageMessageService.getById(msId);
+    public R info(@PathVariable("msId") Long msId) {
+        ManageMessageEntity manageMessage = manageMessageService.getById(msId);
 
         return R.ok().put("manageMessage", manageMessage);
     }
@@ -97,8 +109,8 @@ public class ManageMessageController extends AbstractController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("generator:managemessage:save")
-    public R save(@RequestBody ManageMessageEntity manageMessage){
-		manageMessageService.save(manageMessage);
+    public R save(@RequestBody ManageMessageEntity manageMessage) {
+        manageMessageService.save(manageMessage);
 
         return R.ok();
     }
@@ -108,8 +120,8 @@ public class ManageMessageController extends AbstractController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("generator:managemessage:update")
-    public R update(@RequestBody ManageMessageEntity manageMessage){
-		manageMessageService.updateById(manageMessage);
+    public R update(@RequestBody ManageMessageEntity manageMessage) {
+        manageMessageService.updateById(manageMessage);
 
         return R.ok();
     }
@@ -119,8 +131,8 @@ public class ManageMessageController extends AbstractController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("generator:managemessage:delete")
-    public R delete(@RequestBody Long[] msIds){
-		manageMessageService.removeByIds(Arrays.asList(msIds));
+    public R delete(@RequestBody Long[] msIds) {
+        manageMessageService.removeByIds(Arrays.asList(msIds));
 
         return R.ok();
     }

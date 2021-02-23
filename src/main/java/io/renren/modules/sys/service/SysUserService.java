@@ -73,4 +73,6 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * 查询所有管理员信息
 	 */
 	List<SysUserEntity> queryAllSuper(String chinesName);
+
+	List<SysUserEntity> getAllUsers();
 }

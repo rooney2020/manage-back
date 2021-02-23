@@ -1,9 +1,13 @@
 package io.renren.modules.manage.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.modules.manage.entity.ManageProjectEntity;
 import io.renren.modules.manage.entity.ManageTaskEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +19,10 @@ import java.util.Map;
  */
 public interface ManageTaskService extends IService<ManageTaskEntity> {
 
-    PageUtils queryPage(Map<String, Object> params, Long projectId);
+    PageUtils queryPage(Map<String, Object> params);
+
+    List<ManageTaskEntity> getRequirements();
+
+    IPage<ManageTaskEntity> getList(Page<ManageTaskEntity> ipage, Long userId, Map<String, Object> params);
 }
 

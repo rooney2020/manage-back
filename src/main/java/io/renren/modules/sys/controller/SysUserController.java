@@ -56,6 +56,14 @@ public class SysUserController extends AbstractController {
 	}
 
 	/**
+	 * 所有用户列表(只有id, username和中文名)
+	 */
+	@GetMapping("/users")
+	public R allUsers() {
+		return R.ok().put("data", sysUserService.getAllUsers());
+	}
+
+	/**
 	 * 获取登录的用户信息
 	 */
 	@GetMapping("/info")

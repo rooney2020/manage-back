@@ -11,6 +11,7 @@ import io.renren.modules.manage.entity.ManageMessageEntity;
 import io.renren.modules.manage.service.ManageMessageService;
 import io.renren.modules.manage.utils.CommonUtil;
 import io.renren.modules.sys.controller.AbstractController;
+import io.renren.modules.sys.entity.SysUserEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +67,7 @@ public class ManageLeaveController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("manage:manageleave:save")
+//    @RequiresPermissions("manage:manageleave:save")
     public R save(@RequestBody ManageLeaveEntity manageLeave) {
         manageLeave.setUserId(getUserId());
         manageLeave.setCreateTime(new Date());
@@ -148,7 +149,7 @@ public class ManageLeaveController extends AbstractController {
 
     @GetMapping("/records")
     public R records(@RequestParam("beginDate") String beginDate, @RequestParam("endDate") String endDate) {
-        List<Map> list = manageLeaveService.records(beginDate, endDate, getUserId());
+        List<SysUserEntity> list = manageLeaveService.records(beginDate, endDate, getUserId());
         return R.ok().put("data", list);
     }
 }

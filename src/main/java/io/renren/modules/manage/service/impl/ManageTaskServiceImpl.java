@@ -1,6 +1,11 @@
 package io.renren.modules.manage.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.renren.modules.manage.entity.ManageProjectEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -16,15 +21,27 @@ import io.renren.modules.manage.service.ManageTaskService;
 @Service("manageTaskService")
 public class ManageTaskServiceImpl extends ServiceImpl<ManageTaskDao, ManageTaskEntity> implements ManageTaskService {
 
+    @Autowired
+    private ManageTaskDao dao;
+
     @Override
-    public PageUtils queryPage(Map<String, Object> params, Long projectId) {
+    public PageUtils queryPage(Map<String, Object> params) {
         IPage<ManageTaskEntity> page = this.page(
                 new Query<ManageTaskEntity>().getPage(params),
                 new QueryWrapper<ManageTaskEntity>().lambda()
-                .eq(projectId != null, ManageTaskEntity::getProjectId, projectId)
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<ManageTaskEntity> getRequirements() {
+        return dao.getRequirements();
+    }
+
+    @Override
+    public IPage<ManageTaskEntity> getList(Page<ManageTaskEntity> ipage, Long userId, Map<String, Object> params) {
+        return dao.getList(ipage, userId, params);
     }
 
 }

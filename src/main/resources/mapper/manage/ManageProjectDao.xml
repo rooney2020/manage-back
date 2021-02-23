@@ -3,23 +3,59 @@
 
 <mapper namespace="io.renren.modules.manage.dao.ManageProjectDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.manage.entity.ManageProjectEntity" id="manageProjectMap">
         <result property="projectId" column="project_id"/>
         <result property="projectName" column="project_name"/>
         <result property="managerId" column="manager_id"/>
+        <result property="managerName" column="manager_name"/>
         <result property="beginDate" column="begin_date"/>
         <result property="endDate" column="end_date"/>
         <result property="totalCount" column="total_count"/>
         <result property="comment" column="comment"/>
         <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <result property="status" column="status"/>
     </resultMap>
     <select id="selectUserPage" resultMap="manageProjectMap">
-        select *
+        select manage_project.project_id,
+        manage_project.project_name,
+        manage_project.manager_id,
+        manage_project.begin_date,
+        manage_project.end_date,
+        manage_project.total_count,
+        manage_project.comment,
+        manage_project.create_user_id,
+        manage_project.create_time,
+        manage_project.update_time,
+        manage_project.status,
+        su.chinese_name as create_user_name,
+        su2.chinese_name as manager_name
         from manage_project
+        left join sys_user su on manage_project.create_user_id = su.user_id
+        left join sys_user su2 on manage_project.manager_id = su2.user_id
+        <where>
+            <if test="params.status != null and params.status != ''">
+                and manage_project.status = #{params.status}
+            </if>
+            <if test="params.projectName != null and params.projectName != ''">
+                and manage_project.project_name = #{params.projectName}
+            </if>
+            <if test="params.manageId != null and params.manageId != ''">
+                and manage_project.manager_id = #{params.manageId}
+            </if>
+            <if test="params.beginDate != null and params.beginDate != ''">
+                and manage_project.begin_date = #{params.beginDate}
+            </if>
+            <if test="params.endDate != null and params.endDate != ''">
+                and manage_project.end_date = #{params.endDate}
+            </if>
+        </where>
         order by project_id desc
+    </select>
+    <select id="getAllProjects" resultMap="manageProjectMap">
+        select project_id, project_name from manage_project
     </select>
 </mapper>

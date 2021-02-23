@@ -16,5 +16,28 @@
         <result property="arrangement" column="arrangement"/>
         <result property="etlTime" column="etl_time"/>
         <result property="userId" column="user_id"/>
+        <result property="userName" column="userName"/>
+        <result property="provName" column="provName"/>
+        <collection property="visitProvNames" select="getVisitProvNames" column="{visitProv=visit_prov}"/>
     </resultMap>
+    <select id="selectUserPage" resultMap="manageFormMap">
+        select su.chinese_name as userName, mf.*, p.remark as provName from sys_user su left join manage_form mf
+        on su.user_id = mf.user_id and date_format(mf.etl_time,'%Y-%m-%d')=date_format(#{params.date},'%Y-%m-%d')
+        left join manage_param p on mf.prov_id = p.param_id
+        <where>
+            and (su.super_id = #{params.userId} or su.user_id=#{params.userId})
+            <if test="params.isVisit != null and params.isVisit != ''">
+                and mf.is_visit = #{params.isVisit}
+            </if>
+        </where>
+    </select>
+    <select id="getVisitProvNames" resultType="string">
+        select remark from manage_param
+        <where>
+            param_id in
+            <foreach collection="visitProv.split(',')" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
 </mapper>

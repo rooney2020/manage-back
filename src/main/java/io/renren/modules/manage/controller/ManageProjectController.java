@@ -1,23 +1,20 @@
 package io.renren.modules.manage.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.renren.modules.manage.entity.ManageMessageEntity;
-import io.renren.modules.sys.controller.AbstractController;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.manage.entity.ManageProjectEntity;
-import io.renren.modules.manage.service.ManageProjectService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.manage.entity.ManageProjectEntity;
+import io.renren.modules.manage.service.ManageProjectService;
+import io.renren.modules.sys.controller.AbstractController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 
 
@@ -48,9 +45,14 @@ public class ManageProjectController extends AbstractController {
             limit = Integer.parseInt((String) params.get("limit"));
         }
         Page<ManageProjectEntity> ipage = new Page<>(current, limit);
-        PageUtils page = new PageUtils(manageProjectService.selectUserPage(ipage, getUserId()));
+        PageUtils page = new PageUtils(manageProjectService.selectUserPage(ipage, getUserId(), params));
 
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("/projects")
+    public R allProjects() {
+        return R.ok().put("data", manageProjectService.getAllProjects());
     }
 
 
@@ -58,7 +60,6 @@ public class ManageProjectController extends AbstractController {
      * 信息
      */
     @RequestMapping("/info/{projectId}")
-    @RequiresPermissions("generator:manageproject:info")
     public R info(@PathVariable("projectId") Long projectId){
 		ManageProjectEntity manageProject = manageProjectService.getById(projectId);
 
@@ -69,8 +70,11 @@ public class ManageProjectController extends AbstractController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("generator:manageproject:save")
     public R save(@RequestBody ManageProjectEntity manageProject){
+        manageProject.setCreateUserId(getUserId());
+        manageProject.setCreateTime(new Date());
+        manageProject.setUpdateTime(new Date());
+        ValidatorUtils.validateEntity(manageProject, AddGroup.class);
 		manageProjectService.save(manageProject);
 
         return R.ok();
@@ -81,6 +85,8 @@ public class ManageProjectController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody ManageProjectEntity manageProject){
+        manageProject.setUpdateTime(new Date());
+        ValidatorUtils.validateEntity(manageProject, UpdateGroup.class);
 		manageProjectService.updateById(manageProject);
 
         return R.ok();
@@ -90,7 +96,6 @@ public class ManageProjectController extends AbstractController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("generator:manageproject:delete")
     public R delete(@RequestBody Long[] projectIds){
 		manageProjectService.removeByIds(Arrays.asList(projectIds));
 

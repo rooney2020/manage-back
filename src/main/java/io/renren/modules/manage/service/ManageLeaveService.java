@@ -3,6 +3,7 @@ package io.renren.modules.manage.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.manage.entity.ManageLeaveEntity;
+import io.renren.modules.sys.entity.SysUserEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,6 @@ public interface ManageLeaveService extends IService<ManageLeaveEntity> {
 
     PageUtils history(Map<String, Object> params, Long userId);
 
-    List<Map> records(String beginDate, String endDate, Long userId);
+    List<SysUserEntity> records(String beginDate, String endDate, Long userId);
 }
 
